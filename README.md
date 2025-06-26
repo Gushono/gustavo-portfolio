@@ -1,4 +1,6 @@
-# Gustavo Honorato - Portfolio
+# Gustavo Honorato - Backend Software Engineer Portfolio
+
+<!-- Updated: Skills section removed -->
 
 A modern, interactive portfolio website showcasing my journey as a Backend Software Engineer. Built with React, Vite, and Tailwind CSS, featuring smooth animations, responsive design, and a comprehensive showcase of my professional experience.
 

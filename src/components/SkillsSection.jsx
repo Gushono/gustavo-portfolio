@@ -225,7 +225,7 @@ const SkillsSection = () => {
             <p className="text-muted-foreground">Years Experience</p>
           </div>
           <div className="text-center">
-            <div className="text-4xl font-bold text-primary mb-2">4</div>
+            <div className="text-4xl font-bold text-primary mb-2">3</div>
             <p className="text-muted-foreground">Companies</p>
           </div>
           <div className="text-center">

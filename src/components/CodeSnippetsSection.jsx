@@ -1,9 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Copy, Check, ChevronDown, ChevronUp, Cpu, Code2, Zap } from 'lucide-react';
+import { SiPython, SiGo } from 'react-icons/si';
+import Prism from 'prismjs';
+import 'prismjs/components/prism-python';
+import 'prismjs/components/prism-go';
+import 'prismjs/themes/prism-tomorrow.css';
+import '../styles/CodeSnippets.css';
 
 const CodeSnippetsSection = () => {
   const [activeTab, setActiveTab] = useState('two-sum');
   const [copied, setCopied] = useState({});
+
+  useEffect(() => {
+    // Highlight code when component mounts or when language changes
+    Prism.highlightAll();
+  }, [activeTab]);
 
   const handleCopy = async (code, id) => {
     try {
@@ -15,6 +26,17 @@ const CodeSnippetsSection = () => {
     }
   };
 
+  const getLanguageClass = (language) => {
+    switch (language.toLowerCase()) {
+      case 'python':
+        return 'language-python';
+      case 'go':
+        return 'language-go';
+      default:
+        return 'language-plaintext';
+    }
+  };
+
   const codeExamples = {
     'two-sum': {
       title: 'Two Sum Algorithm',
@@ -23,7 +45,7 @@ const CodeSnippetsSection = () => {
         python: {
           title: 'two_sum.py',
           language: 'Python',
-          icon: '🐍',
+          icon: <SiPython className="text-blue-500" />,
           color: 'from-blue-500 to-blue-700',
           textColor: 'text-blue-600',
           bgColor: 'bg-blue-50',
@@ -45,7 +67,7 @@ print("Indices:", result)  # Output: [0, 1]`
         golang: {
           title: 'two_sum.go',
           language: 'Go',
-          icon: '🐹',
+          icon: <SiGo className="text-cyan-500" />,
           color: 'from-cyan-500 to-cyan-700',
           textColor: 'text-cyan-600',
           bgColor: 'bg-cyan-50',
@@ -82,7 +104,7 @@ func main() {
         python: {
           title: 'strategy_pattern.py',
           language: 'Python',
-          icon: '🐍',
+          icon: <SiPython className="text-blue-500" />,
           color: 'from-blue-500 to-blue-700',
           textColor: 'text-blue-600',
           bgColor: 'bg-blue-50',
@@ -152,7 +174,7 @@ if __name__ == "__main__":
         golang: {
           title: 'strategy_pattern.go',
           language: 'Go',
-          icon: '🐹',
+          icon: <SiGo className="text-cyan-500" />,
           color: 'from-cyan-500 to-cyan-700',
           textColor: 'text-cyan-600',
           bgColor: 'bg-cyan-50',
@@ -236,7 +258,7 @@ func main() {
         python: {
           title: 'factory_pattern.py',
           language: 'Python',
-          icon: '🐍',
+          icon: <SiPython className="text-blue-500" />,
           color: 'from-blue-500 to-blue-700',
           textColor: 'text-blue-600',
           bgColor: 'bg-blue-50',
@@ -317,7 +339,7 @@ if __name__ == "__main__":
         golang: {
           title: 'factory_pattern.go',
           language: 'Go',
-          icon: '🐹',
+          icon: <SiGo className="text-cyan-500" />,
           color: 'from-cyan-500 to-cyan-700',
           textColor: 'text-cyan-600',
           bgColor: 'bg-cyan-50',
@@ -410,7 +432,7 @@ func main() {
         python: {
           title: 'concurrency_comparison.py',
           language: 'Python',
-          icon: '🐍',
+          icon: <SiPython className="text-blue-500" />,
           color: 'from-blue-500 to-blue-700',
           textColor: 'text-blue-600',
           bgColor: 'bg-blue-50',
@@ -531,7 +553,7 @@ if __name__ == "__main__":
         golang: {
           title: 'concurrency_comparison.go',
           language: 'Go',
-          icon: '🐹',
+          icon: <SiGo className="text-cyan-500" />,
           color: 'from-cyan-500 to-cyan-700',
           textColor: 'text-cyan-600',
           bgColor: 'bg-cyan-50',
@@ -651,6 +673,11 @@ func main() {
   const [currentLanguage, setCurrentLanguage] = useState(Object.keys(currentExample.snippets)[0]);
   const currentSnippet = currentExample.snippets[currentLanguage];
 
+  useEffect(() => {
+    // Highlight code when language changes
+    Prism.highlightAll();
+  }, [currentLanguage]);
+
   return (
     <section id="code-showcase" className="py-16 bg-gray-50">
       <div className="container mx-auto px-4">
@@ -703,7 +730,7 @@ func main() {
             
             <button
               onClick={() => handleCopy(currentSnippet.code, `${activeTab}-${currentLanguage}`)}
-              className="flex items-center space-x-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-all duration-200 transform hover:scale-105 active:scale-95 hover:shadow-md"
+              className="copy-button flex items-center space-x-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-all duration-200 transform hover:scale-105 active:scale-95 hover:shadow-md"
             >
               {copied[`${activeTab}-${currentLanguage}`] ? (
                 <>
@@ -725,7 +752,7 @@ func main() {
               <button
                 key={lang}
                 onClick={() => setCurrentLanguage(lang)}
-                className={`flex items-center space-x-2 px-6 py-3 font-medium transition-all duration-200 transform hover:scale-105 active:scale-95 ${
+                className={`language-tab flex items-center space-x-2 px-6 py-3 font-medium transition-all duration-200 transform hover:scale-105 active:scale-95 ${
                   currentLanguage === lang
                     ? `bg-white border-b-2 ${snippet.textColor} border-current shadow-sm`
                     : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
@@ -739,9 +766,21 @@ func main() {
 
           {/* Code */}
           <div className="p-6">
-            <pre className="bg-gray-900 text-gray-100 rounded-lg p-6 overflow-x-auto text-sm leading-relaxed">
-              <code>{currentSnippet.code}</code>
-            </pre>
+            <div className="code-snippet-container">
+              <pre className={`bg-gray-900 text-gray-100 rounded-lg p-6 overflow-x-auto text-sm leading-relaxed ${getLanguageClass(currentSnippet.language)}`}>
+                <code className={getLanguageClass(currentSnippet.language)}>
+                  {currentSnippet.code}
+                </code>
+              </pre>
+              {/* Line numbers overlay */}
+              <div className="line-numbers">
+                {currentSnippet.code.split('\n').map((_, index) => (
+                  <div key={index}>
+                    {index + 1}
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
 

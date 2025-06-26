@@ -1,0 +1,112 @@
+/* Code Snippets Custom Styles */
+.code-snippet-container {
+  position: relative;
+}
+
+.code-snippet-container pre {
+  padding-left: 3.5rem !important;
+}
+
+.line-numbers {
+  position: absolute;
+  top: 1.5rem;
+  left: 1.5rem;
+  color: #6b7280;
+  font-size: 0.875rem;
+  line-height: 1.625;
+  user-select: none;
+  pointer-events: none;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+}
+
+/* PrismJS custom theme overrides */
+.prism-tomorrow {
+  background: #1f2937 !important;
+}
+
+.prism-tomorrow .token.keyword {
+  color: #fbbf24 !important;
+  font-weight: 600;
+}
+
+.prism-tomorrow .token.string {
+  color: #34d399 !important;
+}
+
+.prism-tomorrow .token.number {
+  color: #f87171 !important;
+}
+
+.prism-tomorrow .token.comment {
+  color: #9ca3af !important;
+  font-style: italic;
+}
+
+.prism-tomorrow .token.function {
+  color: #60a5fa !important;
+}
+
+.prism-tomorrow .token.class-name {
+  color: #a78bfa !important;
+}
+
+.prism-tomorrow .token.operator {
+  color: #fbbf24 !important;
+}
+
+.prism-tomorrow .token.punctuation {
+  color: #d1d5db !important;
+}
+
+.prism-tomorrow .token.variable {
+  color: #f3f4f6 !important;
+}
+
+/* Python specific tokens */
+.prism-tomorrow .token.builtin {
+  color: #fbbf24 !important;
+}
+
+.prism-tomorrow .token.decorator {
+  color: #a78bfa !important;
+}
+
+/* Go specific tokens */
+.prism-tomorrow .token.type {
+  color: #a78bfa !important;
+}
+
+.prism-tomorrow .token.struct {
+  color: #a78bfa !important;
+}
+
+.prism-tomorrow .token.interface {
+  color: #a78bfa !important;
+}
+
+/* Copy button hover effects */
+.copy-button {
+  transition: all 0.2s ease-in-out;
+}
+
+.copy-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.copy-button:active {
+  transform: scale(0.95);
+}
+
+/* Language tab animations */
+.language-tab {
+  transition: all 0.2s ease-in-out;
+}
+
+.language-tab:hover {
+  transform: scale(1.05);
+}
+
+.language-tab:active {
+  transform: scale(0.95);
+} 

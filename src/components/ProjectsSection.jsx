@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Badge } from './ui/badge';
+import { Button } from './ui/button';
 import { 
   Building, 
   Calculator, 
@@ -10,110 +11,129 @@ import {
   TrendingUp,
   Code,
   Server,
-  Globe
+  Globe,
+  ChevronDown,
+  ChevronUp,
+  ExternalLink,
+  Briefcase
 } from 'lucide-react';
 
 const ProjectsSection = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const [expandedProjects, setExpandedProjects] = useState({});
 
-  const projects = [
+  const projectGroups = [
     {
-      id: 'enforce',
-      title: 'Enforce',
-      subtitle: 'Plataforma de Gestão de Imóveis',
-      description: 'Sistema completo de gestão imobiliária com funcionalidades avançadas de avaliação e controle financeiro.',
-      features: [
-        'Cálculo de valor presente de imóveis',
-        'Cadastro e gestão de áreas',
-        'Controle de despesas e receitas',
-        'Avaliação e precificação de imóveis',
-        'Dashboard de indicadores financeiros'
-      ],
-      techStack: {
-        backend: ['Python', 'Flask', 'FastAPI'],
-        frontend: ['Angular'],
-        database: ['PostgreSQL', 'Redis'],
-        tools: ['Docker', 'AWS', 'Git']
-      },
-      icon: Building,
-      color: 'text-blue-600',
+      company: 'Enforce',
+      color: 'blue',
       bgColor: 'bg-blue-50',
+      borderColor: 'border-blue-200',
+      textColor: 'text-blue-700',
       gradient: 'from-blue-500 to-blue-700',
-      impact: 'Ajudava na avaliação e precificação de imóveis através de cálculos financeiros precisos'
+      projects: [
+        {
+          id: 'enforce',
+          title: 'Real Estate Management Platform',
+          description: 'Complete real estate management system with advanced valuation and financial control features.',
+          features: [
+            'Present value calculation for properties',
+            'Area registration and management',
+            'Expense and revenue control',
+            'Property valuation and pricing',
+            'Financial indicators dashboard'
+          ],
+          techStack: {
+            backend: ['Python', 'Flask', 'FastAPI'],
+            frontend: ['Angular'],
+            database: ['PostgreSQL', 'Redis'],
+            tools: ['Docker', 'AWS', 'Git']
+          },
+          icon: Building,
+          impact: 'Helped in property valuation and pricing through accurate financial calculations'
+        }
+      ]
     },
     {
-      id: 'stone-pagarme',
-      title: 'Stone/Pagar.me',
-      subtitle: 'Sistema de KYC e Gestão de Risco',
-      description: 'Plataforma de análise de risco e KYC (Know Your Customer) para definição de perfis de antecipação.',
-      features: [
-        'Processamento de KYC para clientes',
-        'Definição de perfis de antecipação',
-        'Análise de risco em tempo real',
-        'Integração com sistema TON do BBB',
-        'Processamento de cadastros em massa'
-      ],
-      techStack: {
-        backend: ['Python', 'FastAPI', 'Celery'],
-        frontend: ['React', 'TypeScript'],
-        database: ['PostgreSQL', 'MongoDB'],
-        tools: ['Docker', 'Kubernetes', 'Redis', 'RabbitMQ']
-      },
-      icon: Shield,
-      color: 'text-green-600',
+      company: 'Stone/Pagar.me',
+      color: 'green',
       bgColor: 'bg-green-50',
+      borderColor: 'border-green-200',
+      textColor: 'text-green-700',
       gradient: 'from-green-500 to-green-700',
-      impact: 'Permitia definir perfis de antecipação baseados em análise de risco e processamento de dados do BBB'
+      projects: [
+        {
+          id: 'stone-pagarme',
+          title: 'KYC and Risk Management System',
+          description: 'Risk analysis and KYC (Know Your Customer) platform for defining advance profiles.',
+          features: [
+            'KYC processing for clients',
+            'Advance profile definition',
+            'Real-time risk analysis',
+            'Integration with BBB TON system',
+            'Bulk registration processing'
+          ],
+          techStack: {
+            backend: ['Python', 'FastAPI', 'Celery'],
+            frontend: ['React', 'TypeScript'],
+            database: ['PostgreSQL', 'MongoDB'],
+            tools: ['Docker', 'Kubernetes', 'Redis', 'RabbitMQ']
+          },
+          icon: Shield,
+          impact: 'Allowed defining advance profiles based on risk analysis and BBB data processing'
+        }
+      ]
     },
     {
-      id: 'mercadolivre-security',
-      title: 'Mercado Livre',
-      subtitle: 'Security Education Backend',
-      description: 'Plataforma de capacitação de cursos para desenvolvedores do Mercado Livre, focada em desenvolvimento seguro.',
-      features: [
-        'Sistema de quiz e avaliações',
-        'Desafios de código práticos',
-        'Video aulas sobre segurança',
-        'Cobertura de vulnerabilidades (XSS, SSRF, SQL Injection)',
-        'Dashboard de progresso dos desenvolvedores',
-        'Métricas de capacitação e engajamento'
-      ],
-      techStack: {
-        backend: ['Golang'],
-        frontend: ['React'],
-        database: ['PostgreSQL', 'Redis'],
-        tools: ['Datadog', 'Kibana', 'New Relic', 'Docker']
-      },
-      icon: Shield,
-      color: 'text-red-600',
-      bgColor: 'bg-red-50',
-      gradient: 'from-red-500 to-red-700',
-      impact: 'Mais de 10 mil desenvolvedores capacitados, gerando economia significativa ao substituir ferramenta paga'
-    },
-    {
-      id: 'mercadolivre-genova',
-      title: 'Mercado Livre',
-      subtitle: 'Gerenciador de Arquivos (Genova)',
-      description: 'Ferramenta para comunicação segura com bandeiras e integrações via SFTP em ambiente PCI.',
-      features: [
-        'Comunicação segura via SFTP',
-        'Ambiente PCI para troca de arquivos',
-        'Notificações automáticas para clientes',
-        'Sistema de conciliação de dados',
-        'Integração com múltiplas bandeiras',
-        'Monitoramento e logs de transações'
-      ],
-      techStack: {
-        backend: ['Golang'],
-        frontend: ['React'],
-        database: ['PostgreSQL', 'Redis'],
-        tools: ['Datadog', 'Kibana', 'New Relic', 'SFTP', 'PCI DSS']
-      },
-      icon: Database,
-      color: 'text-yellow-600',
+      company: 'Mercado Livre',
+      color: 'yellow',
       bgColor: 'bg-yellow-50',
+      borderColor: 'border-yellow-200',
+      textColor: 'text-yellow-700',
       gradient: 'from-yellow-500 to-yellow-700',
-      impact: 'Permitia comunicação segura com bandeiras e integrações, facilitando a conciliação para clientes'
+      projects: [
+        {
+          id: 'mercadolivre-security',
+          title: 'Security Education Backend',
+          description: 'Training platform for Mercado Livre developers, focused on secure development.',
+          features: [
+            'Quiz and assessment system',
+            'Practical coding challenges',
+            'Security video lessons',
+            'Vulnerability coverage (XSS, SSRF, SQL Injection)',
+            'Developer progress dashboard',
+            'Training and engagement metrics'
+          ],
+          techStack: {
+            backend: ['Golang'],
+            frontend: ['React'],
+            database: ['PostgreSQL', 'Redis'],
+            tools: ['Datadog', 'Kibana', 'New Relic', 'Docker']
+          },
+          icon: Shield,
+          impact: 'Over 10,000 developers trained, generating significant savings by replacing paid tool'
+        },
+        {
+          id: 'mercadolivre-genova',
+          title: 'File Manager (Genova)',
+          description: 'Tool for secure communication with card networks and integrations via SFTP in PCI environment.',
+          features: [
+            'Secure communication via SFTP',
+            'PCI environment for file exchange',
+            'Automatic notifications for clients',
+            'Data reconciliation system',
+            'Integration with multiple card networks',
+            'Transaction monitoring and logging'
+          ],
+          techStack: {
+            backend: ['Golang'],
+            frontend: ['React'],
+            database: ['PostgreSQL', 'Redis'],
+            tools: ['Datadog', 'Kibana', 'New Relic', 'SFTP', 'PCI DSS']
+          },
+          icon: Database,
+          impact: 'Enabled secure communication with card networks and integrations, facilitating reconciliation for clients'
+        }
+      ]
     }
   ];
 
@@ -135,6 +155,40 @@ const ProjectsSection = () => {
     return () => observer.disconnect();
   }, []);
 
+  const toggleProject = (projectId) => {
+    setExpandedProjects(prev => ({
+      ...prev,
+      [projectId]: !prev[projectId]
+    }));
+  };
+
+  const getColorClasses = (color) => {
+    const colorMap = {
+      blue: {
+        bg: 'bg-blue-50',
+        border: 'border-blue-200',
+        text: 'text-blue-700',
+        hover: 'hover:bg-blue-100',
+        badge: 'bg-blue-100 text-blue-800 border-blue-300'
+      },
+      green: {
+        bg: 'bg-green-50',
+        border: 'border-green-200',
+        text: 'text-green-700',
+        hover: 'hover:bg-green-100',
+        badge: 'bg-green-100 text-green-800 border-green-300'
+      },
+      yellow: {
+        bg: 'bg-yellow-50',
+        border: 'border-yellow-200',
+        text: 'text-yellow-700',
+        hover: 'hover:bg-yellow-100',
+        badge: 'bg-yellow-100 text-yellow-800 border-yellow-300'
+      }
+    };
+    return colorMap[color] || colorMap.blue;
+  };
+
   return (
     <section 
       id="projects" 
@@ -144,157 +198,198 @@ const ProjectsSection = () => {
         <div className="text-center mb-16">
           <div className="flex items-center justify-center mb-6">
             <div className="p-4 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full">
-              <Code className="w-8 h-8 text-white" />
+              <Briefcase className="w-8 h-8 text-white" />
             </div>
           </div>
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">Projetos Destacados</h2>
+          <h2 className="text-4xl md:text-5xl font-bold mb-4">Featured Projects</h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Experiência prática em projetos complexos com impacto real no negócio
+            Practical experience in complex projects with real business impact
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8">
-          {projects.map((project, index) => (
-            <Card
-              key={project.id}
-              className={`group hover:shadow-2xl transition-all duration-500 border-2 hover:border-primary/20 overflow-hidden ${
-                isVisible ? 'animate-fade-in-up' : 'opacity-0 translate-y-10'
-              }`}
-              style={{
-                animationDelay: `${index * 150}ms`
-              }}
-            >
-              {/* Project Header */}
-              <CardHeader className={`bg-gradient-to-r ${project.gradient} text-white pb-6`}>
-                <div className="flex items-center space-x-4">
-                  <div className={`p-3 rounded-full bg-white/20 backdrop-blur-sm`}>
-                    <project.icon className="w-8 h-8" />
+        <div className="space-y-12">
+          {projectGroups.map((group, groupIndex) => {
+            const colors = getColorClasses(group.color);
+            
+            return (
+              <div
+                key={group.company}
+                className={`${colors.bg} rounded-2xl p-8 border-2 ${colors.border} ${
+                  isVisible ? 'animate-fade-in-up' : 'opacity-0 translate-y-10'
+                }`}
+                style={{
+                  animationDelay: `${groupIndex * 200}ms`
+                }}
+              >
+                {/* Company Header */}
+                <div className="flex items-center justify-between mb-8">
+                  <div className="flex items-center space-x-4">
+                    <div className={`p-3 rounded-full bg-gradient-to-r ${group.gradient} text-white`}>
+                      {React.createElement(group.projects[0].icon, { className: "w-6 h-6" })}
+                    </div>
+                    <div>
+                      <h3 className="text-2xl font-bold">{group.company}</h3>
+                      <p className="text-muted-foreground">{group.projects.length} project{group.projects.length > 1 ? 's' : ''}</p>
+                    </div>
                   </div>
-                  <div>
-                    <CardTitle className="text-2xl font-bold">{project.title}</CardTitle>
-                    <p className="text-white/90 font-medium">{project.subtitle}</p>
-                  </div>
-                </div>
-              </CardHeader>
-
-              <CardContent className="p-6 space-y-6">
-                {/* Description */}
-                <div>
-                  <h3 className="text-lg font-semibold mb-2 flex items-center">
-                    <TrendingUp className="w-5 h-5 mr-2 text-primary" />
-                    Descrição
-                  </h3>
-                  <p className="text-muted-foreground leading-relaxed">
-                    {project.description}
-                  </p>
+                  <Badge variant="outline" className={`${colors.badge} font-medium`}>
+                    {group.projects.length} Project{group.projects.length > 1 ? 's' : ''}
+                  </Badge>
                 </div>
 
-                {/* Features */}
-                <div>
-                  <h3 className="text-lg font-semibold mb-3 flex items-center">
-                    <Database className="w-5 h-5 mr-2 text-primary" />
-                    Funcionalidades Principais
-                  </h3>
-                  <ul className="space-y-2">
-                    {project.features.map((feature, featureIndex) => (
-                      <li 
-                        key={featureIndex}
-                        className="flex items-start space-x-2 text-sm"
+                {/* Projects */}
+                <div className="space-y-6">
+                  {group.projects.map((project, projectIndex) => {
+                    const isExpanded = expandedProjects[project.id];
+                    
+                    return (
+                      <Card
+                        key={project.id}
+                        className={`group hover:shadow-xl transition-all duration-500 border-2 ${colors.border} hover:border-current overflow-hidden ${
+                          isVisible ? 'animate-slide-in-right' : 'opacity-0 translate-x-10'
+                        }`}
                         style={{
-                          animationDelay: `${(index * 200) + (featureIndex * 100)}ms`,
-                          animation: isVisible ? 'slideInRight 0.6s ease-out forwards' : 'none'
+                          animationDelay: `${(groupIndex * 200) + (projectIndex * 100)}ms`
                         }}
                       >
-                        <div className="w-1.5 h-1.5 bg-primary rounded-full mt-2 flex-shrink-0"></div>
-                        <span className="text-muted-foreground">{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+                        {/* Project Header */}
+                        <CardHeader className={`bg-gradient-to-r ${group.gradient} text-white pb-4`}>
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center space-x-4">
+                              <div className="p-2 rounded-full bg-white/20 backdrop-blur-sm">
+                                {React.createElement(project.icon, { className: "w-6 h-6" })}
+                              </div>
+                              <div>
+                                <CardTitle className="text-xl font-bold">{project.title}</CardTitle>
+                                <p className="text-white/90 text-sm">{project.description}</p>
+                              </div>
+                            </div>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => toggleProject(project.id)}
+                              className="text-white hover:bg-white/20 transition-all duration-300"
+                            >
+                              {isExpanded ? (
+                                <ChevronUp className="w-5 h-5" />
+                              ) : (
+                                <ChevronDown className="w-5 h-5" />
+                              )}
+                            </Button>
+                          </div>
+                        </CardHeader>
 
-                {/* Tech Stack */}
-                <div>
-                  <h3 className="text-lg font-semibold mb-3 flex items-center">
-                    <Server className="w-5 h-5 mr-2 text-primary" />
-                    Stack Tecnológico
-                  </h3>
-                  <div className="space-y-3">
-                    <div>
-                      <h4 className="text-sm font-medium text-muted-foreground mb-2">Backend</h4>
-                      <div className="flex flex-wrap gap-2">
-                        {project.techStack.backend.map((tech) => (
-                          <Badge key={tech} variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">
-                            {tech}
-                          </Badge>
-                        ))}
-                      </div>
-                    </div>
-                    <div>
-                      <h4 className="text-sm font-medium text-muted-foreground mb-2">Frontend</h4>
-                      <div className="flex flex-wrap gap-2">
-                        {project.techStack.frontend.map((tech) => (
-                          <Badge key={tech} variant="outline" className="bg-green-50 text-green-700 border-green-200">
-                            {tech}
-                          </Badge>
-                        ))}
-                      </div>
-                    </div>
-                    <div>
-                      <h4 className="text-sm font-medium text-muted-foreground mb-2">Database & Tools</h4>
-                      <div className="flex flex-wrap gap-2">
-                        {project.techStack.database.map((tech) => (
-                          <Badge key={tech} variant="outline" className="bg-orange-50 text-orange-700 border-orange-200">
-                            {tech}
-                          </Badge>
-                        ))}
-                        {project.techStack.tools.map((tech) => (
-                          <Badge key={tech} variant="outline" className="bg-purple-50 text-purple-700 border-purple-200">
-                            {tech}
-                          </Badge>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                        {/* Expandable Content */}
+                        {isExpanded && (
+                          <CardContent className="p-6 space-y-6 animate-slide-down">
+                            {/* Features */}
+                            <div>
+                              <h3 className="text-lg font-semibold mb-3 flex items-center">
+                                <TrendingUp className="w-5 h-5 mr-2 text-primary" />
+                                Key Features
+                              </h3>
+                              <ul className="grid md:grid-cols-2 gap-2">
+                                {project.features.map((feature, featureIndex) => (
+                                  <li 
+                                    key={featureIndex}
+                                    className="flex items-start space-x-2 text-sm"
+                                  >
+                                    <div className="w-1.5 h-1.5 bg-primary rounded-full mt-2 flex-shrink-0"></div>
+                                    <span className="text-muted-foreground">{feature}</span>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
 
-                {/* Impact */}
-                <div className={`p-4 rounded-lg ${project.bgColor} border-l-4 border-l-current`} style={{ borderLeftColor: project.color }}>
-                  <h3 className="text-lg font-semibold mb-2 flex items-center">
-                    <Users className="w-5 h-5 mr-2" style={{ color: project.color }} />
-                    Impacto no Negócio
-                  </h3>
-                  <p className="text-sm text-muted-foreground">
-                    {project.impact}
-                  </p>
+                            {/* Tech Stack */}
+                            <div>
+                              <h3 className="text-lg font-semibold mb-3 flex items-center">
+                                <Server className="w-5 h-5 mr-2 text-primary" />
+                                Tech Stack
+                              </h3>
+                              <div className="grid md:grid-cols-3 gap-4">
+                                <div>
+                                  <h4 className="text-sm font-medium text-muted-foreground mb-2">Backend</h4>
+                                  <div className="flex flex-wrap gap-2">
+                                    {project.techStack.backend.map((tech) => (
+                                      <Badge key={tech} variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">
+                                        {tech}
+                                      </Badge>
+                                    ))}
+                                  </div>
+                                </div>
+                                <div>
+                                  <h4 className="text-sm font-medium text-muted-foreground mb-2">Frontend</h4>
+                                  <div className="flex flex-wrap gap-2">
+                                    {project.techStack.frontend.map((tech) => (
+                                      <Badge key={tech} variant="outline" className="bg-green-50 text-green-700 border-green-200">
+                                        {tech}
+                                      </Badge>
+                                    ))}
+                                  </div>
+                                </div>
+                                <div>
+                                  <h4 className="text-sm font-medium text-muted-foreground mb-2">Database & Tools</h4>
+                                  <div className="flex flex-wrap gap-2">
+                                    {project.techStack.database.map((tech) => (
+                                      <Badge key={tech} variant="outline" className="bg-orange-50 text-orange-700 border-orange-200">
+                                        {tech}
+                                      </Badge>
+                                    ))}
+                                    {project.techStack.tools.map((tech) => (
+                                      <Badge key={tech} variant="outline" className="bg-purple-50 text-purple-700 border-purple-200">
+                                        {tech}
+                                      </Badge>
+                                    ))}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            {/* Impact */}
+                            <div className={`p-4 rounded-lg ${colors.bg} border-l-4 border-l-current`} style={{ borderLeftColor: colors.text }}>
+                              <h3 className="text-lg font-semibold mb-2 flex items-center">
+                                <Users className="w-5 h-5 mr-2" style={{ color: colors.text }} />
+                                Business Impact
+                              </h3>
+                              <p className="text-sm text-muted-foreground">
+                                {project.impact}
+                              </p>
+                            </div>
+                          </CardContent>
+                        )}
+                      </Card>
+                    );
+                  })}
                 </div>
-              </CardContent>
-            </Card>
-          ))}
+              </div>
+            );
+          })}
         </div>
 
         {/* Call to Action */}
         <div className="text-center mt-16">
           <div className="max-w-2xl mx-auto">
-            <h3 className="text-2xl font-bold mb-4">Interessado em Projetos Similares?</h3>
+            <h3 className="text-2xl font-bold mb-4">Interested in Similar Projects?</h3>
             <p className="text-muted-foreground mb-6">
-              Tenho experiência em desenvolvimento de sistemas complexos e estou sempre aberto a novos desafios.
+              I have experience in developing complex systems and I'm always open to new challenges.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
               <Badge variant="outline" className="text-lg px-6 py-3 hover:bg-primary hover:text-white transition-all duration-300">
                 <Globe className="w-5 h-5 mr-2" />
-                Sistemas Empresariais
+                Enterprise Systems
               </Badge>
               <Badge variant="outline" className="text-lg px-6 py-3 hover:bg-primary hover:text-white transition-all duration-300">
                 <Shield className="w-5 h-5 mr-2" />
-                Segurança & Compliance
+                Security & Compliance
               </Badge>
               <Badge variant="outline" className="text-lg px-6 py-3 hover:bg-primary hover:text-white transition-all duration-300">
                 <Calculator className="w-5 h-5 mr-2" />
-                Cálculos Financeiros
+                Financial Calculations
               </Badge>
               <Badge variant="outline" className="text-lg px-6 py-3 hover:bg-primary hover:text-white transition-all duration-300">
                 <Database className="w-5 h-5 mr-2" />
-                Integrações PCI
+                PCI Integrations
               </Badge>
             </div>
           </div>
@@ -313,7 +408,7 @@ const ProjectsSection = () => {
           }
         }
         
-        @keyframes slideInRight {
+        @keyframes slide-in-right {
           from {
             opacity: 0;
             transform: translateX(20px);
@@ -324,8 +419,27 @@ const ProjectsSection = () => {
           }
         }
         
+        @keyframes slide-down {
+          from {
+            opacity: 0;
+            transform: translateY(-10px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        
         .animate-fade-in-up {
           animation: fade-in-up 0.8s ease-out forwards;
+        }
+        
+        .animate-slide-in-right {
+          animation: slide-in-right 0.6s ease-out forwards;
+        }
+        
+        .animate-slide-down {
+          animation: slide-down 0.3s ease-out forwards;
         }
       `}</style>
     </section>

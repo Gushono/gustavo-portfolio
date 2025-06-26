@@ -1,403 +1,839 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Card, CardContent } from './ui/card';
-import { Badge } from './ui/badge';
-import { Button } from './ui/button';
-import { 
-  Code, 
-  Copy, 
-  Check, 
-  FileText,
-  Terminal
-} from 'lucide-react';
+import React, { useState } from 'react';
+import { Copy, Check, ChevronDown, ChevronUp, Cpu, Code2, Zap } from 'lucide-react';
 
 const CodeSnippetsSection = () => {
-  const [activeLanguage, setActiveLanguage] = useState('python');
-  const [copiedCode, setCopiedCode] = useState('');
-  const [isVisible, setIsVisible] = useState(false);
-  const sectionRef = useRef(null);
+  const [activeTab, setActiveTab] = useState('two-sum');
+  const [copied, setCopied] = useState({});
 
-  const codeSnippets = {
-    python: {
-      title: 'two_sum.py',
-      language: 'Python',
-      icon: '🐍',
-      color: 'from-blue-500 to-blue-700',
-      textColor: 'text-blue-600',
-      bgColor: 'bg-blue-50',
-      code: `def two_sum(nums, target):
-    """
-    Find two numbers in the array that add up to target.
-    
-    Args:
-        nums: List of integers
-        target: Target sum
-        
-    Returns:
-        List of two indices that add up to target
-    """
-    num_map = {}
-    
+  const handleCopy = async (code, id) => {
+    try {
+      await navigator.clipboard.writeText(code);
+      setCopied(prev => ({ ...prev, [id]: true }));
+      setTimeout(() => setCopied(prev => ({ ...prev, [id]: false })), 2000);
+    } catch (err) {
+      console.error('Failed to copy: ', err);
+    }
+  };
+
+  const codeExamples = {
+    'two-sum': {
+      title: 'Two Sum Algorithm',
+      description: 'Efficient solution using HashMap',
+      snippets: {
+        python: {
+          title: 'two_sum.py',
+          language: 'Python',
+          icon: '🐍',
+          color: 'from-blue-500 to-blue-700',
+          textColor: 'text-blue-600',
+          bgColor: 'bg-blue-50',
+          code: `def two_sum(nums, target):
+    seen = {}
     for i, num in enumerate(nums):
         complement = target - num
-        
-        if complement in num_map:
-            return [num_map[complement], i]
-            
-        num_map[num] = i
-    
+        if complement in seen:
+            return [seen[complement], i]
+        seen[num] = i
     return []
 
-
 # Example usage
-if __name__ == "__main__":
-    nums = [2, 7, 11, 15]
-    target = 9
-    result = two_sum(nums, target)
-    print(f"Indices: {result}")  # Output: [0, 1]`,
-      highlights: {
-        keywords: ['def', 'if', '__name__', '__main__', 'for', 'in', 'return'],
-        strings: ['"Find two numbers in the array that add up to target."', '"Args:"', '"nums: List of integers"', '"target: Target sum"', '"Returns:"', '"List of two indices that add up to target"', '"Indices: {result}"'],
-        comments: ['# Example usage'],
-        functions: ['two_sum', 'enumerate', 'print']
-      }
-    },
-    golang: {
-      title: 'two_sum.go',
-      language: 'Go',
-      icon: '🐹',
-      color: 'from-cyan-500 to-cyan-700',
-      textColor: 'text-cyan-600',
-      bgColor: 'bg-cyan-50',
-      code: `package main
+nums = [2, 7, 11, 15]
+target = 9
+result = two_sum(nums, target)
+print("Indices:", result)  # Output: [0, 1]`
+        },
+        golang: {
+          title: 'two_sum.go',
+          language: 'Go',
+          icon: '🐹',
+          color: 'from-cyan-500 to-cyan-700',
+          textColor: 'text-cyan-600',
+          bgColor: 'bg-cyan-50',
+          code: `package main
 
 import "fmt"
 
-// TwoSum finds two numbers in the slice that add up to target
-func TwoSum(nums []int, target int) []int {
-    numMap := make(map[int]int)
+func twoSum(nums []int, target int) []int {
+    seen := make(map[int]int)
     
     for i, num := range nums {
         complement := target - num
-        
-        if index, exists := numMap[complement]; exists {
-            return []int{index, i}
+        if j, exists := seen[complement]; exists {
+            return []int{j, i}
         }
-        
-        numMap[num] = i
+        seen[num] = i
     }
-    
     return []int{}
 }
 
 func main() {
     nums := []int{2, 7, 11, 15}
     target := 9
+    result := twoSum(nums, target)
+    fmt.Printf("Indices: %v\\n", result)
+}`
+        }
+      }
+    },
+    'strategy': {
+      title: 'Strategy Pattern',
+      description: 'Payment processing with different strategies',
+      snippets: {
+        python: {
+          title: 'strategy_pattern.py',
+          language: 'Python',
+          icon: '🐍',
+          color: 'from-blue-500 to-blue-700',
+          textColor: 'text-blue-600',
+          bgColor: 'bg-blue-50',
+          code: `from abc import ABC, abstractmethod
+from typing import List
+
+# Strategy Interface
+class PaymentStrategy(ABC):
+    @abstractmethod
+    def pay(self, amount: float) -> str:
+        pass
+
+# Concrete Strategies
+class CreditCardPayment(PaymentStrategy):
+    def __init__(self, card_number: str):
+        self.card_number = card_number
     
-    result := TwoSum(nums, target)
-    fmt.Printf("Indices: %v\\n", result) // Output: [0 1]
-}`,
-      highlights: {
-        keywords: ['package', 'import', 'func', 'if', 'for', 'range', 'return', 'make', 'map'],
-        strings: ['"fmt"', '"Indices: %v\\n"'],
-        comments: ['// TwoSum finds two numbers in the slice that add up to target', '// Output: [0 1]'],
-        functions: ['TwoSum', 'main', 'fmt.Printf']
+    def pay(self, amount: float) -> str:
+        return "Paid $%.2f using Credit Card ending in %s" % (amount, self.card_number[-4:])
+
+class PayPalPayment(PaymentStrategy):
+    def __init__(self, email: str):
+        self.email = email
+    
+    def pay(self, amount: float) -> str:
+        return "Paid $%.2f using PayPal account %s" % (amount, self.email)
+
+class CryptoPayment(PaymentStrategy):
+    def __init__(self, wallet_address: str):
+        self.wallet_address = wallet_address
+    
+    def pay(self, amount: float) -> str:
+        return "Paid $%.2f using Crypto wallet %s..." % (amount, self.wallet_address[:8])
+
+# Context
+class ShoppingCart:
+    def __init__(self):
+        self.items: List[dict] = []
+        self.payment_strategy: PaymentStrategy = None
+    
+    def add_item(self, item: dict):
+        self.items.append(item)
+    
+    def set_payment_strategy(self, strategy: PaymentStrategy):
+        self.payment_strategy = strategy
+    
+    def checkout(self) -> str:
+        if not self.payment_strategy:
+            raise ValueError("Payment strategy not set")
+        
+        total = sum(item['price'] for item in self.items)
+        return self.payment_strategy.pay(total)
+
+# Usage Example
+if __name__ == "__main__":
+    cart = ShoppingCart()
+    cart.add_item({"name": "Laptop", "price": 999.99})
+    cart.add_item({"name": "Mouse", "price": 29.99})
+    
+    # Use different payment strategies
+    cart.set_payment_strategy(CreditCardPayment("1234-5678-9012-3456"))
+    print(cart.checkout())
+    
+    cart.set_payment_strategy(PayPalPayment("user@example.com"))
+    print(cart.checkout())`
+        },
+        golang: {
+          title: 'strategy_pattern.go',
+          language: 'Go',
+          icon: '🐹',
+          color: 'from-cyan-500 to-cyan-700',
+          textColor: 'text-cyan-600',
+          bgColor: 'bg-cyan-50',
+          code: `package main
+
+import "fmt"
+
+type PaymentStrategy interface {
+    Pay(amount float64) string
+}
+
+type CreditCardPayment struct {
+    cardNumber string
+}
+
+func (c *CreditCardPayment) Pay(amount float64) string {
+    return fmt.Sprintf("Paid $%.2f using Credit Card ending in %s", amount, c.cardNumber[len(c.cardNumber)-4:])
+}
+
+type PayPalPayment struct {
+    email string
+}
+
+func (p *PayPalPayment) Pay(amount float64) string {
+    return fmt.Sprintf("Paid $%.2f using PayPal account %s", amount, p.email)
+}
+
+type ShoppingCart struct {
+    items            []Item
+    paymentStrategy  PaymentStrategy
+}
+
+type Item struct {
+    name  string
+    price float64
+}
+
+func (s *ShoppingCart) AddItem(item Item) {
+    s.items = append(s.items, item)
+}
+
+func (s *ShoppingCart) SetPaymentStrategy(strategy PaymentStrategy) {
+    s.paymentStrategy = strategy
+}
+
+func (s *ShoppingCart) Checkout() (string, error) {
+    if s.paymentStrategy == nil {
+        return "", fmt.Errorf("payment strategy not set")
+    }
+    
+    var total float64
+    for _, item := range s.items {
+        total += item.price
+    }
+    
+    return s.paymentStrategy.Pay(total), nil
+}
+
+func main() {
+    cart := &ShoppingCart{}
+    cart.AddItem(Item{name: "Laptop", price: 999.99})
+    cart.AddItem(Item{name: "Mouse", price: 29.99})
+    
+    cart.SetPaymentStrategy(&CreditCardPayment{cardNumber: "1234-5678-9012-3456"})
+    if result, err := cart.Checkout(); err == nil {
+        fmt.Println(result)
+    }
+    
+    cart.SetPaymentStrategy(&PayPalPayment{email: "user@example.com"})
+    if result, err := cart.Checkout(); err == nil {
+        fmt.Println(result)
+    }
+}`
+        }
+      }
+    },
+    'factory': {
+      title: 'Factory Pattern',
+      description: 'Database connection factory',
+      snippets: {
+        python: {
+          title: 'factory_pattern.py',
+          language: 'Python',
+          icon: '🐍',
+          color: 'from-blue-500 to-blue-700',
+          textColor: 'text-blue-600',
+          bgColor: 'bg-blue-50',
+          code: `from abc import ABC, abstractmethod
+from typing import Dict, Any
+
+# Product Interface
+class Database(ABC):
+    @abstractmethod
+    def connect(self) -> str:
+        pass
+    
+    @abstractmethod
+    def execute(self, query: str) -> str:
+        pass
+
+# Concrete Products
+class PostgreSQL(Database):
+    def __init__(self, host: str, port: int, database: str):
+        self.host = host
+        self.port = port
+        self.database = database
+    
+    def connect(self) -> str:
+        return "Connected to PostgreSQL at %s:%d/%s" % (self.host, self.port, self.database)
+    
+    def execute(self, query: str) -> str:
+        return "PostgreSQL executing: %s" % query
+
+class MySQL(Database):
+    def __init__(self, host: str, port: int, database: str):
+        self.host = host
+        self.port = port
+        self.database = database
+    
+    def connect(self) -> str:
+        return "Connected to MySQL at %s:%d/%s" % (self.host, self.port, self.database)
+    
+    def execute(self, query: str) -> str:
+        return "MySQL executing: %s" % query
+
+class MongoDB(Database):
+    def __init__(self, host: str, port: int, database: str):
+        self.host = host
+        self.port = port
+        self.database = database
+    
+    def connect(self) -> str:
+        return "Connected to MongoDB at %s:%d/%s" % (self.host, self.port, self.database)
+    
+    def execute(self, query: str) -> str:
+        return "MongoDB executing: %s" % query
+
+# Factory
+def create_database(db_type: str) -> Database:
+    if db_type.lower() == "postgresql":
+        return PostgreSQL("localhost", 5432, "test")
+    elif db_type.lower() == "mysql":
+        return MySQL("localhost", 3306, "test")
+    elif db_type.lower() == "mongodb":
+        return MongoDB("localhost", 27017, "test")
+    else:
+        raise ValueError("Unsupported database type: %s" % db_type)
+
+# Usage Example
+if __name__ == "__main__":
+    databases = ["postgresql", "mysql", "mongodb"]
+    
+    for db_type in databases:
+        try:
+            db = create_database(db_type)
+            print(db.connect())
+            print(db.execute("SELECT * FROM users"))
+            print()
+        except ValueError as e:
+            print(e)`
+        },
+        golang: {
+          title: 'factory_pattern.go',
+          language: 'Go',
+          icon: '🐹',
+          color: 'from-cyan-500 to-cyan-700',
+          textColor: 'text-cyan-600',
+          bgColor: 'bg-cyan-50',
+          code: `package main
+
+import "fmt"
+
+type Database interface {
+    Connect() string
+    Execute(query string) string
+}
+
+type PostgreSQL struct {
+    host     string
+    port     int
+    database string
+}
+
+func (p *PostgreSQL) Connect() string {
+    return fmt.Sprintf("Connected to PostgreSQL at %s:%d/%s", p.host, p.port, p.database)
+}
+
+func (p *PostgreSQL) Execute(query string) string {
+    return fmt.Sprintf("PostgreSQL executing: %s", query)
+}
+
+type MySQL struct {
+    host     string
+    port     int
+    database string
+}
+
+func (m *MySQL) Connect() string {
+    return fmt.Sprintf("Connected to MySQL at %s:%d/%s", m.host, m.port, m.database)
+}
+
+func (m *MySQL) Execute(query string) string {
+    return fmt.Sprintf("MySQL executing: %s", query)
+}
+
+type MongoDB struct {
+    host     string
+    port     int
+    database string
+}
+
+func (m *MongoDB) Connect() string {
+    return fmt.Sprintf("Connected to MongoDB at %s:%d/%s", m.host, m.port, m.database)
+}
+
+func (m *MongoDB) Execute(query string) string {
+    return fmt.Sprintf("MongoDB executing: %s", query)
+}
+
+func CreateDatabase(dbType string) (Database, error) {
+    switch dbType {
+    case "postgresql":
+        return &PostgreSQL{host: "localhost", port: 5432, database: "test"}, nil
+    case "mysql":
+        return &MySQL{host: "localhost", port: 3306, database: "test"}, nil
+    case "mongodb":
+        return &MongoDB{host: "localhost", port: 27017, database: "test"}, nil
+    default:
+        return nil, fmt.Errorf("unsupported database type: %s", dbType)
+    }
+}
+
+func main() {
+    databases := []string{"postgresql", "mysql", "mongodb"}
+    
+    for _, dbType := range databases {
+        db, err := CreateDatabase(dbType)
+        if err != nil {
+            fmt.Println(err)
+            continue
+        }
+        
+        fmt.Println(db.Connect())
+        fmt.Println(db.Execute("SELECT * FROM users"))
+        fmt.Println()
+    }
+}`
+        }
+      }
+    },
+    'concurrency': {
+      title: 'Concurrency: Go vs Python',
+      description: 'Comparing goroutines vs threads',
+      snippets: {
+        python: {
+          title: 'concurrency_comparison.py',
+          language: 'Python',
+          icon: '🐍',
+          color: 'from-blue-500 to-blue-700',
+          textColor: 'text-blue-600',
+          bgColor: 'bg-blue-50',
+          code: `import threading
+import time
+import queue
+from concurrent.futures import ThreadPoolExecutor
+
+def worker(worker_id):
+    print("Worker %d starting" % worker_id)
+    time.sleep(1)
+    print("Worker %d done" % worker_id)
+
+def process_with_threads(count):
+    threads = []
+    print("Starting %d threads..." % count)
+    
+    start_time = time.time()
+    
+    for i in range(count):
+        thread = threading.Thread(target=worker, args=(i,))
+        threads.append(thread)
+        thread.start()
+    
+    for thread in threads:
+        thread.join()
+    
+    duration = time.time() - start_time
+    print("All threads completed in %.2f seconds" % duration)
+
+def producer(q):
+    for i in range(5):
+        q.put("Message %d" % i)
+        time.sleep(0.1)
+    q.put(None)  # Sentinel value
+
+def consumer(q):
+    print("Receiving messages:")
+    while True:
+        msg = q.get()
+        if msg is None:
+            break
+        print("Received: %s" % msg)
+
+def queue_example():
+    q = queue.Queue()
+    
+    producer_thread = threading.Thread(target=producer, args=(q,))
+    consumer_thread = threading.Thread(target=consumer, args=(q,))
+    
+    producer_thread.start()
+    consumer_thread.start()
+    
+    producer_thread.join()
+    consumer_thread.join()
+
+class Counter:
+    def __init__(self):
+        self.count = 0
+        self.lock = threading.Lock()
+    
+    def increment(self):
+        with self.lock:
+            self.count += 1
+    
+    def get_count(self):
+        with self.lock:
+            return self.count
+
+def lock_example():
+    counter = Counter()
+    threads = []
+    
+    for _ in range(10):
+        thread = threading.Thread(target=lambda: [counter.increment() for _ in range(1000)])
+        threads.append(thread)
+        thread.start()
+    
+    for thread in threads:
+        thread.join()
+    
+    print("Final count: %d" % counter.get_count())
+
+def task(task_id):
+    print("Task %d starting" % task_id)
+    time.sleep(0.5)
+    print("Task %d completed" % task_id)
+    return "Result from task %d" % task_id
+
+def thread_pool_example():
+    print("Using ThreadPoolExecutor:")
+    with ThreadPoolExecutor(max_workers=4) as executor:
+        futures = [executor.submit(task, i) for i in range(8)]
+        results = [future.result() for future in futures]
+    
+    print("Results:")
+    for result in results:
+        print(result)
+
+if __name__ == "__main__":
+    print("=== Python Threading Examples ===")
+    
+    # Thread example
+    process_with_threads(5)
+    print()
+    
+    # Queue example
+    queue_example()
+    print()
+    
+    # Lock example
+    lock_example()
+    print()
+    
+    # ThreadPoolExecutor example
+    thread_pool_example()`
+        },
+        golang: {
+          title: 'concurrency_comparison.go',
+          language: 'Go',
+          icon: '🐹',
+          color: 'from-cyan-500 to-cyan-700',
+          textColor: 'text-cyan-600',
+          bgColor: 'bg-cyan-50',
+          code: `package main
+
+import (
+    "fmt"
+    "sync"
+    "time"
+)
+
+func worker(id int, wg *sync.WaitGroup) {
+    defer wg.Done()
+    fmt.Printf("Worker %d starting\\n", id)
+    time.Sleep(time.Second)
+    fmt.Printf("Worker %d done\\n", id)
+}
+
+func processWithGoroutines(count int) {
+    var wg sync.WaitGroup
+    fmt.Printf("Starting %d goroutines...\\n", count)
+    
+    start := time.Now()
+    
+    for i := 0; i < count; i++ {
+        wg.Add(1)
+        go worker(i, &wg)
+    }
+    
+    wg.Wait()
+    duration := time.Since(start)
+    fmt.Printf("All goroutines completed in %.2f seconds\\n", duration)
+}
+
+func producer(ch chan<- string, wg *sync.WaitGroup) {
+    defer wg.Done()
+    for i := 0; i < 5; i++ {
+        ch <- fmt.Sprintf("Message %d", i)
+        time.Sleep(100 * time.Millisecond)
+    }
+    close(ch)
+}
+
+func consumer(ch <-chan string, wg *sync.WaitGroup) {
+    defer wg.Done()
+    fmt.Println("Receiving messages:")
+    for msg := range ch {
+        fmt.Printf("Received: %s\\n", msg)
+    }
+}
+
+func queueExample() {
+    ch := make(chan string, 5)
+    var wg sync.WaitGroup
+    
+    wg.Add(2)
+    go producer(ch, &wg)
+    go consumer(ch, &wg)
+    wg.Wait()
+}
+
+type Counter struct {
+    count int
+    mu    sync.Mutex
+}
+
+func (c *Counter) Increment() {
+    c.mu.Lock()
+    defer c.mu.Unlock()
+    c.count++
+}
+
+func (c *Counter) GetCount() int {
+    c.mu.Lock()
+    defer c.mu.Unlock()
+    return c.count
+}
+
+func lockExample() {
+    counter := &Counter{}
+    var wg sync.WaitGroup
+    
+    for i := 0; i < 10; i++ {
+        wg.Add(1)
+        go func() {
+            defer wg.Done()
+            for j := 0; j < 1000; j++ {
+                counter.Increment()
+            }
+        }()
+    }
+    
+    wg.Wait()
+    fmt.Printf("Final count: %d\\n", counter.GetCount())
+}
+
+func main() {
+    fmt.Println("=== Go Concurrency Examples ===")
+    
+    // Goroutine example
+    processWithGoroutines(5)
+    fmt.Println()
+    
+    // Channel example
+    queueExample()
+    fmt.Println()
+    
+    // Mutex example
+    lockExample()
+}`
+        }
       }
     }
   };
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsVisible(entry.isIntersecting);
-      },
-      { threshold: 0.1 }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
-
-  const copyToClipboard = async (code, language) => {
-    try {
-      await navigator.clipboard.writeText(code);
-      setCopiedCode(language);
-      setTimeout(() => setCopiedCode(''), 2000);
-    } catch (err) {
-      console.error('Failed to copy code:', err);
-    }
-  };
-
-  const highlightCode = (code, highlights) => {
-    // Para Java, vamos usar uma abordagem mais simples para evitar conflitos de HTML
-    if (activeLanguage === 'java') {
-      let highlightedCode = code;
-      
-      // Escape HTML characters first
-      highlightedCode = highlightedCode
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;');
-      
-      // Highlight multiline comments (/** ... */)
-      highlightedCode = highlightedCode.replace(
-        /\/\*\*[\s\S]*?\*\//g, 
-        '<span class="text-green-600 italic">$&</span>'
-      );
-      
-      // Highlight single line comments
-      highlightedCode = highlightedCode.replace(
-        /\/\/.*$/gm, 
-        '<span class="text-green-600 italic">$&</span>'
-      );
-      
-      // Highlight strings in quotes
-      highlightedCode = highlightedCode.replace(
-        /"[^"]*"/g, 
-        '<span class="text-green-500">$&</span>'
-      );
-      
-      // Highlight Java keywords
-      const javaKeywords = ['import', 'public', 'class', 'static', 'int', 'if', 'for', 'return', 'new'];
-      javaKeywords.forEach(keyword => {
-        const regex = new RegExp(`\\b(${keyword})\\b`, 'g');
-        highlightedCode = highlightedCode.replace(regex, '<span class="text-purple-600 font-semibold">$1</span>');
-      });
-      
-      // Highlight Java types and classes
-      const javaTypes = ['HashMap', 'Map', 'Arrays', 'Integer', 'String'];
-      javaTypes.forEach(type => {
-        const regex = new RegExp(`\\b(${type})\\b`, 'g');
-        highlightedCode = highlightedCode.replace(regex, '<span class="text-blue-600 font-medium">$1</span>');
-      });
-      
-      // Highlight method calls
-      highlightedCode = highlightedCode.replace(
-        /\b([a-zA-Z_][a-zA-Z0-9_]*)\s*\(/g, 
-        '<span class="text-blue-600 font-medium">$1</span>('
-      );
-      
-      return highlightedCode;
-    }
-    
-    // Para outras linguagens, manter a lógica original
-    let highlightedCode = code;
-    
-    // Highlight multiline comments first (/** ... */)
-    highlightedCode = highlightedCode.replace(/\/\*\*[\s\S]*?\*\//g, '<span class="text-green-600 italic">$&</span>');
-    
-    // Highlight single line comments
-    highlightedCode = highlightedCode.replace(/\/\/.*$/gm, '<span class="text-green-600 italic">$&</span>');
-    
-    // Highlight strings
-    highlights.strings.forEach(str => {
-      const regex = new RegExp(`(${str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'g');
-      highlightedCode = highlightedCode.replace(regex, '<span class="text-green-500">$1</span>');
-    });
-    
-    // Highlight keywords
-    highlights.keywords.forEach(keyword => {
-      const regex = new RegExp(`\\b(${keyword})\\b`, 'g');
-      highlightedCode = highlightedCode.replace(regex, '<span class="text-purple-600 font-semibold">$1</span>');
-    });
-    
-    // Highlight functions
-    highlights.functions.forEach(func => {
-      const regex = new RegExp(`\\b(${func})\\b`, 'g');
-      highlightedCode = highlightedCode.replace(regex, '<span class="text-blue-600 font-medium">$1</span>');
-    });
-    
-    return highlightedCode;
-  };
-
-  const currentSnippet = codeSnippets[activeLanguage];
+  const currentExample = codeExamples[activeTab];
+  const [currentLanguage, setCurrentLanguage] = useState(Object.keys(currentExample.snippets)[0]);
+  const currentSnippet = currentExample.snippets[currentLanguage];
 
   return (
-    <section 
-      ref={sectionRef}
-      id="code-snippets" 
-      className="min-h-screen py-20 px-6 bg-gradient-to-br from-gray-50 to-gray-100"
-    >
-      <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-16">
-          <div className="flex items-center justify-center mb-6">
-            <div className="p-4 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full">
-              <Code className="w-8 h-8 text-white" />
-            </div>
-          </div>
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">Code Showcase</h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Demonstrating problem-solving skills across multiple programming languages
+    <section id="code-showcase" className="py-16 bg-gray-50">
+      <div className="container mx-auto px-4">
+        <div className="text-center mb-12">
+          <h2 className="text-4xl font-bold text-gray-900 mb-4">
+            Code Showcase
+          </h2>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            Explore different programming patterns and algorithms across multiple languages
           </p>
-          <div className="mt-6">
-            <Badge variant="outline" className="text-sm px-4 py-2 hover:bg-purple-50 hover:text-purple-600 hover:border-purple-300 transition-all duration-300 font-medium">
-              <Terminal className="w-4 h-4 mr-2" />
-              Two Sum Algorithm Implementation
-            </Badge>
-          </div>
         </div>
 
-        {/* Language Selection */}
-        <div className="flex justify-center mb-12">
-          <div className="flex space-x-2 p-2 bg-white rounded-xl shadow-lg">
-            {Object.entries(codeSnippets).map(([key, snippet]) => (
-              <Button
-                key={key}
-                onClick={() => setActiveLanguage(key)}
-                variant={activeLanguage === key ? "default" : "ghost"}
-                className={`flex items-center space-x-2 transition-all duration-300 ${
-                  activeLanguage === key 
-                    ? `bg-gradient-to-r ${snippet.color} text-white shadow-lg scale-105` 
-                    : 'hover:scale-105'
-                }`}
-              >
-                <span className="text-lg">{snippet.icon}</span>
-                <span className="font-medium">{snippet.language}</span>
-              </Button>
-            ))}
-          </div>
+        {/* Tab Navigation */}
+        <div className="flex flex-wrap justify-center gap-2 mb-8">
+          {Object.entries(codeExamples).map(([key, example]) => (
+            <button
+              key={key}
+              onClick={() => {
+                setActiveTab(key);
+                setCurrentLanguage(Object.keys(example.snippets)[0]);
+              }}
+              className={`px-6 py-3 rounded-lg font-medium transition-all duration-200 transform hover:scale-105 active:scale-95 ${
+                activeTab === key
+                  ? 'bg-blue-600 text-white shadow-lg'
+                  : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200 hover:shadow-md'
+              }`}
+            >
+              {example.title}
+            </button>
+          ))}
         </div>
 
         {/* Code Display */}
-        <div className="max-w-5xl mx-auto">
-          <Card className={`${currentSnippet.bgColor} border-2 border-gray-200 shadow-2xl overflow-hidden transition-all duration-500 ${
-            isVisible ? 'animate-fade-in-up' : ''
-          }`}>
-            <CardContent className="p-0">
-              {/* IDE Header */}
-              <div className={`bg-gradient-to-r ${currentSnippet.color} text-white p-4`}>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-3">
-                    <div className="flex space-x-1">
-                      <div className="w-3 h-3 bg-red-400 rounded-full"></div>
-                      <div className="w-3 h-3 bg-yellow-400 rounded-full"></div>
-                      <div className="w-3 h-3 bg-green-400 rounded-full"></div>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <FileText className="w-4 h-4" />
-                      <span className="font-mono text-sm">{currentSnippet.title}</span>
-                    </div>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <Button
-                      onClick={() => copyToClipboard(currentSnippet.code, activeLanguage)}
-                      variant="ghost"
-                      size="sm"
-                      className="text-white hover:bg-white/20"
-                    >
-                      {copiedCode === activeLanguage ? (
-                        <Check className="w-4 h-4" />
-                      ) : (
-                        <Copy className="w-4 h-4" />
-                      )}
-                    </Button>
-                  </div>
-                </div>
+        <div className="bg-white rounded-xl shadow-lg overflow-hidden">
+          {/* Header */}
+          <div className="flex items-center justify-between p-6 border-b border-gray-200">
+            <div className="flex items-center space-x-4">
+              <div className={`p-2 rounded-lg ${currentSnippet.bgColor}`}>
+                <span className="text-2xl">{currentSnippet.icon}</span>
               </div>
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900">
+                  {currentSnippet.title}
+                </h3>
+                <p className="text-sm text-gray-600">
+                  {currentExample.description}
+                </p>
+              </div>
+            </div>
+            
+            <button
+              onClick={() => handleCopy(currentSnippet.code, `${activeTab}-${currentLanguage}`)}
+              className="flex items-center space-x-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-all duration-200 transform hover:scale-105 active:scale-95 hover:shadow-md"
+            >
+              {copied[`${activeTab}-${currentLanguage}`] ? (
+                <>
+                  <Check className="w-4 h-4 text-green-600" />
+                  <span className="text-sm text-green-600">Copied!</span>
+                </>
+              ) : (
+                <>
+                  <Copy className="w-4 h-4 text-gray-600" />
+                  <span className="text-sm text-gray-600">Copy</span>
+                </>
+              )}
+            </button>
+          </div>
 
-              {/* Code Content */}
-              <div className="bg-gray-900 text-gray-100 p-6 font-mono text-sm leading-relaxed overflow-x-auto">
-                <div className="flex">
-                  {/* Line Numbers */}
-                  <div className="text-gray-500 select-none mr-4 text-right">
-                    {currentSnippet.code.split('\n').map((_, index) => (
-                      <div key={index} className="leading-relaxed">
-                        {index + 1}
-                      </div>
-                    ))}
-                  </div>
-                  
-                  {/* Code */}
-                  <div className="flex-1">
-                    <pre 
-                      className="whitespace-pre-wrap leading-relaxed"
-                      dangerouslySetInnerHTML={{
-                        __html: highlightCode(currentSnippet.code, currentSnippet.highlights)
-                      }}
-                    />
-                  </div>
-                </div>
-              </div>
+          {/* Language Tabs */}
+          <div className="flex border-b border-gray-200">
+            {Object.entries(currentExample.snippets).map(([lang, snippet]) => (
+              <button
+                key={lang}
+                onClick={() => setCurrentLanguage(lang)}
+                className={`flex items-center space-x-2 px-6 py-3 font-medium transition-all duration-200 transform hover:scale-105 active:scale-95 ${
+                  currentLanguage === lang
+                    ? `bg-white border-b-2 ${snippet.textColor} border-current shadow-sm`
+                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+                }`}
+              >
+                <span className="text-lg">{snippet.icon}</span>
+                <span>{snippet.language}</span>
+              </button>
+            ))}
+          </div>
 
-              {/* Footer */}
-              <div className={`${currentSnippet.bgColor} p-4 border-t border-gray-200`}>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-4">
-                    <Badge variant="outline" className={`${currentSnippet.textColor} border-current hover:bg-current/10 hover:text-current transition-all duration-300 font-medium`}>
-                      <span className="mr-1">{currentSnippet.icon}</span>
-                      {currentSnippet.language}
-                    </Badge>
-                    <span className="text-sm text-muted-foreground">
-                      Time Complexity: O(n) | Space Complexity: O(n)
-                    </span>
-                  </div>
-                  <div className="text-sm text-muted-foreground">
-                    {currentSnippet.code.split('\n').length} lines
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+          {/* Code */}
+          <div className="p-6">
+            <pre className="bg-gray-900 text-gray-100 rounded-lg p-6 overflow-x-auto text-sm leading-relaxed">
+              <code>{currentSnippet.code}</code>
+            </pre>
+          </div>
         </div>
 
-        {/* Algorithm Explanation */}
-        <div className="max-w-4xl mx-auto mt-12">
-          <Card className="bg-white shadow-lg">
-            <CardContent className="p-8">
-              <h3 className="text-2xl font-bold mb-4 flex items-center">
-                <Code className="w-6 h-6 mr-2 text-purple-600" />
-                Algorithm Explanation
-              </h3>
-              <div className="prose prose-lg max-w-none">
-                <p className="text-muted-foreground leading-relaxed">
-                  The <strong>Two Sum</strong> problem is a classic algorithmic challenge that demonstrates 
-                  efficient problem-solving using hash maps. Instead of using a brute force O(n²) approach, 
-                  this solution achieves O(n) time complexity by storing complements in a hash map as we iterate 
-                  through the array.
-                </p>
-                <div className="mt-6 grid md:grid-cols-2 gap-6">
-                  <div>
-                    <h4 className="font-semibold text-lg mb-2">Key Concepts:</h4>
-                    <ul className="space-y-1 text-muted-foreground">
-                      <li>• Hash Map for O(1) lookups</li>
-                      <li>• Single pass algorithm</li>
-                      <li>• Complement calculation</li>
-                      <li>• Index tracking</li>
-                    </ul>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-lg mb-2">Applications:</h4>
-                    <ul className="space-y-1 text-muted-foreground">
-                      <li>• Interview preparation</li>
-                      <li>• Algorithm optimization</li>
-                      <li>• Data structure usage</li>
-                      <li>• Problem-solving patterns</li>
-                    </ul>
-                  </div>
-                </div>
+        {/* Explanation */}
+        <div className="mt-8 grid md:grid-cols-2 gap-6">
+          {activeTab === 'two-sum' && (
+            <>
+              <div className="bg-white p-6 rounded-lg shadow-md">
+                <h4 className="text-lg font-semibold text-gray-900 mb-3">Algorithm Complexity</h4>
+                <ul className="space-y-2 text-gray-600">
+                  <li>• <strong>Time Complexity:</strong> O(n) - Single pass through the array</li>
+                  <li>• <strong>Space Complexity:</strong> O(n) - HashMap to store complements</li>
+                  <li>• <strong>Approach:</strong> Use HashMap to track seen numbers and their indices</li>
+                </ul>
               </div>
-            </CardContent>
-          </Card>
+              <div className="bg-white p-6 rounded-lg shadow-md">
+                <h4 className="text-lg font-semibold text-gray-900 mb-3">Key Insights</h4>
+                <ul className="space-y-2 text-gray-600">
+                  <li>• For each number, check if its complement exists in the HashMap</li>
+                  <li>• If found, return the current index and the complement's index</li>
+                  <li>• If not found, add the current number and its index to the HashMap</li>
+                </ul>
+              </div>
+            </>
+          )}
+
+          {activeTab === 'strategy' && (
+            <>
+              <div className="bg-white p-6 rounded-lg shadow-md">
+                <h4 className="text-lg font-semibold text-gray-900 mb-3">Strategy Pattern Benefits</h4>
+                <ul className="space-y-2 text-gray-600">
+                  <li>• <strong>Open/Closed Principle:</strong> Open for extension, closed for modification</li>
+                  <li>• <strong>Runtime Flexibility:</strong> Switch strategies at runtime</li>
+                  <li>• <strong>Single Responsibility:</strong> Each strategy handles one payment method</li>
+                </ul>
+              </div>
+              <div className="bg-white p-6 rounded-lg shadow-md">
+                <h4 className="text-lg font-semibold text-gray-900 mb-3">Use Cases</h4>
+                <ul className="space-y-2 text-gray-600">
+                  <li>• Payment processing systems</li>
+                  <li>• Sorting algorithms</li>
+                  <li>• Compression algorithms</li>
+                  <li>• Authentication methods</li>
+                </ul>
+              </div>
+            </>
+          )}
+
+          {activeTab === 'factory' && (
+            <>
+              <div className="bg-white p-6 rounded-lg shadow-md">
+                <h4 className="text-lg font-semibold text-gray-900 mb-3">Factory Pattern Benefits</h4>
+                <ul className="space-y-2 text-gray-600">
+                  <li>• <strong>Encapsulation:</strong> Hide object creation complexity</li>
+                  <li>• <strong>Flexibility:</strong> Easy to add new product types</li>
+                  <li>• <strong>Consistency:</strong> Centralized creation logic</li>
+                </ul>
+              </div>
+              <div className="bg-white p-6 rounded-lg shadow-md">
+                <h4 className="text-lg font-semibold text-gray-900 mb-3">Common Applications</h4>
+                <ul className="space-y-2 text-gray-600">
+                  <li>• Database connection factories</li>
+                  <li>• UI component factories</li>
+                  <li>• Logger factories</li>
+                  <li>• Configuration factories</li>
+                </ul>
+              </div>
+            </>
+          )}
+
+          {activeTab === 'concurrency' && (
+            <>
+              <div className="bg-white p-6 rounded-lg shadow-md">
+                <h4 className="text-lg font-semibold text-gray-900 mb-3">Python Threading</h4>
+                <ul className="space-y-2 text-gray-600">
+                  <li>• <strong>GIL Limitation:</strong> Global Interpreter Lock restricts true parallelism</li>
+                  <li>• <strong>I/O Bound:</strong> Best for I/O operations, not CPU-intensive tasks</li>
+                  <li>• <strong>Thread Safety:</strong> Requires explicit synchronization with locks</li>
+                </ul>
+              </div>
+              <div className="bg-white p-6 rounded-lg shadow-md">
+                <h4 className="text-lg font-semibold text-gray-900 mb-3">Go Goroutines</h4>
+                <ul className="space-y-2 text-gray-600">
+                  <li>• <strong>Lightweight:</strong> Start with just 2KB of stack space</li>
+                  <li>• <strong>True Concurrency:</strong> Can run in parallel on multiple cores</li>
+                  <li>• <strong>Channels:</strong> Built-in communication mechanism</li>
+                </ul>
+              </div>
+            </>
+          )}
         </div>
       </div>
-
-      <style jsx>{`
-        @keyframes fade-in-up {
-          from {
-            opacity: 0;
-            transform: translateY(30px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-        .animate-fade-in-up {
-          animation: fade-in-up 0.6s ease-out forwards;
-        }
-      `}</style>
     </section>
   );
 };

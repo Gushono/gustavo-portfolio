@@ -6,6 +6,7 @@ export const NAV_ITEMS = [
   { id: 'experience', label: 'Experience', href: '#experience' },
   { id: 'code', label: 'Code', href: '#code' },
   { id: 'skills', label: 'Skills', href: '#skills' },
+  { id: 'projects', label: 'Projects', href: '#projects' },
   { id: 'contact', label: 'Contact', href: '#contact' }
 ];
 

@@ -5,6 +5,70 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0] - 2025-01-27
+
+### 📄 Resume Download Feature
+
+#### Contact Section Enhancements
+- **Resume Download Section**: Added dedicated resume download area at the end of contact section
+- **Professional Presentation**: Clean, centered layout with download button
+- **File Integration**: PDF resume file integrated into public folder for direct download
+- **User Experience**: 
+  - Clear call-to-action with download icon
+  - Hover animations for better interactivity
+  - Proper file naming and download attributes
+  - Separated from main contact content with subtle border
+
+#### Navigation & Footer Improvements
+- **Navigation Cleanup**: Removed non-functional Home button from navigation
+- **Footer Organization**: Updated footer quick links to match navbar order exactly
+- **Complete Section Coverage**: All sections now accessible from footer navigation
+- **Vertical Layout**: Footer links organized top-to-bottom for better readability
+
+#### Contact Section Reorganization
+- **Side-by-Side Layout**: "Get in Touch" and "Connect with Me" now display side by side on desktop
+- **Improved Spacing**: Better use of horizontal space with grid layout
+- **Removed Redundancy**: Eliminated "Ready for New Challenges" availability status section
+- **Cleaner Design**: More focused and professional contact presentation
+
+### 🛠 Technical Improvements
+
+#### File Management
+- **Public Assets**: Resume PDF properly placed in public folder for web access
+- **Download Functionality**: Proper HTML5 download attribute implementation
+- **Responsive Design**: Download section works seamlessly on all devices
+
+#### Code Quality
+- **Component Organization**: Better separation of concerns in contact section
+- **Accessibility**: Maintained proper semantic HTML and ARIA labels
+- **Performance**: Optimized layout and animations
+
+### 🎯 User Experience Enhancements
+
+#### Professional Polish
+- **Complete Portfolio**: Resume download completes the professional presentation
+- **Easy Access**: Resume available at the end of the site for easy access
+- **Consistent Styling**: Download section matches overall design language
+- **Clear Navigation**: Improved footer organization for better site navigation
+
+#### Contact Flow
+- **Logical Progression**: Contact → Download flow makes sense for users
+- **Multiple Contact Options**: Email, social media, and resume download
+- **Professional Appearance**: Clean, organized contact presentation
+
+### 📱 Responsive Enhancements
+
+#### Mobile Experience
+- **Touch-Friendly**: Download button properly sized for mobile interaction
+- **Stacked Layout**: Contact cards stack vertically on mobile devices
+- **Consistent Spacing**: Proper spacing maintained across all screen sizes
+
+#### Desktop Experience
+- **Side-by-Side Layout**: Better use of desktop screen real estate
+- **Professional Feel**: Enhanced desktop experience with improved layouts
+
+---
+
 ## [1.1.0] - 2025-06-26
 
 ### 🎨 Enhanced User Experience & Interactions

@@ -5,6 +5,105 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] - 2025-06-26
+
+### 🎨 Enhanced User Experience & Interactions
+
+#### Code Showcase Improvements
+- **Syntax Highlighting**: Added PrismJS for professional code syntax highlighting
+- **Line Numbers**: Added line numbers to code blocks for better readability
+- **Language Support**: Enhanced support for Python and Go with proper keyword highlighting
+- **Copy Functionality**: Improved copy button with visual feedback
+- **Custom Styling**: Added custom CSS for better code block appearance
+- **Language Tabs**: Smooth transitions between different programming languages
+
+#### Projects Section Enhancements
+- **Company Logos**: Added actual company logos (Mercado Livre, Stone/Pagar.me, Enforce)
+- **Logo Styling**: Improved logo containers with proper sizing and rounded corners
+- **Visual Consistency**: Better alignment and spacing for company branding
+- **Professional Appearance**: Enhanced visual appeal with company-specific branding
+
+#### Experience Section - Major Overhaul ⭐ **NEW**
+- **Mouse Swipe Functionality**: 
+  - Click and drag left/right to navigate between companies
+  - Auto-change at 100px threshold for smooth navigation
+  - Manual swipe completion at 30px threshold
+  - Prevents text selection during drag operations
+- **Smooth Transitions**:
+  - Slide animations when changing companies (300ms duration)
+  - Direction-aware transitions (left/right slide effects)
+  - Scale and opacity effects during transitions
+  - Prevents multiple transitions simultaneously
+- **Visual Feedback**:
+  - Cursor changes (grab/grabbing) during interactions
+  - Limited transform effects to prevent text inversion
+  - Dynamic shadows during drag operations
+  - Smooth company change animations
+- **Button Visibility Fixes**:
+  - Fixed progress indicator dots visibility when selected
+  - Improved company navigation button styling
+  - Better contrast and visual effects for selected states
+  - White background with theme-colored borders for clear selection
+
+#### Navigation Improvements
+- **Scroll Highlighting**: Fixed navigation tab highlighting for code showcase section
+- **Section Detection**: Improved scroll-based active section detection
+- **Smooth Scrolling**: Enhanced navigation between sections
+
+### 🛠 Technical Improvements
+
+#### Code Quality
+- **Dependency Management**: Added PrismJS for syntax highlighting
+- **Event Handling**: Improved mouse event management for swipe functionality
+- **State Management**: Better state handling for transitions and animations
+- **Performance**: Optimized animations and transitions for smooth performance
+
+#### CSS Enhancements
+- **Custom Animations**: Added smooth slide transitions and transform effects
+- **Responsive Design**: Improved responsive behavior for new interactive features
+- **Visual Effects**: Enhanced shadows, scaling, and rotation effects
+- **User Experience**: Better visual feedback for all interactive elements
+
+### 🐛 Bug Fixes
+
+#### Experience Section
+- **Text Selection**: Prevented text selection during drag operations
+- **Button Visibility**: Fixed invisible selected buttons in company navigation
+- **Progress Indicators**: Fixed invisible progress dots when selected
+- **Animation Conflicts**: Resolved conflicts between multiple animations
+
+#### Code Showcase
+- **Navigation Highlighting**: Fixed navigation tab not highlighting when scrolling to code section
+- **Language Detection**: Improved language class detection for syntax highlighting
+
+### 🎯 User Experience Improvements
+
+#### Interactive Features
+- **Intuitive Navigation**: Swipe gestures feel natural and responsive
+- **Visual Feedback**: Clear indication of current state and interactions
+- **Smooth Animations**: Professional-grade transitions and effects
+- **Accessibility**: Maintained accessibility while adding new features
+
+#### Professional Polish
+- **Company Branding**: Authentic company logos enhance credibility
+- **Code Presentation**: Professional syntax highlighting improves code readability
+- **Smooth Interactions**: Fluid animations create premium user experience
+- **Visual Consistency**: Unified design language across all sections
+
+### 📱 Responsive Enhancements
+
+#### Mobile Experience
+- **Touch Support**: Swipe gestures work seamlessly on mobile devices
+- **Performance**: Optimized animations for mobile performance
+- **Usability**: Improved touch targets and interaction areas
+
+#### Desktop Experience
+- **Mouse Support**: Enhanced mouse interactions with drag functionality
+- **Visual Effects**: Rich desktop-specific animations and effects
+- **Professional Feel**: Premium desktop experience with smooth transitions
+
+---
+
 ## [1.0.0] - 2025-06-26
 
 ### 🎉 Initial Release - Complete Portfolio Website

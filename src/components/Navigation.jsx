@@ -53,14 +53,14 @@ const Navigation = () => {
           ? 'bg-background/95 backdrop-blur-md shadow-lg border-b border-border' 
           : 'bg-transparent'
       }`}>
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="flex items-center justify-between h-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="flex items-center justify-between h-14 sm:h-16">
             {/* Logo */}
             <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-sm">GH</span>
+              <div className="w-7 h-7 sm:w-8 sm:h-8 bg-primary rounded-lg flex items-center justify-center">
+                <span className="text-white font-bold text-xs sm:text-sm">GH</span>
               </div>
-              <span className="font-bold text-lg">Gustavo Honorato</span>
+              <span className="font-bold text-base sm:text-lg">Gustavo Honorato</span>
             </div>
 
             {/* Desktop Menu */}
@@ -83,7 +83,7 @@ const Navigation = () => {
             <Button
               variant="ghost"
               size="sm"
-              className="md:hidden"
+              className="md:hidden p-2"
               onClick={() => setIsOpen(!isOpen)}
             >
               {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -97,21 +97,21 @@ const Navigation = () => {
         isOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
       }`}>
         <div className="absolute inset-0 bg-black/50" onClick={() => setIsOpen(false)} />
-        <div className={`absolute top-0 right-0 h-full w-80 bg-background shadow-xl transform transition-transform duration-300 ${
+        <div className={`absolute top-0 right-0 h-full w-72 sm:w-80 bg-background shadow-xl transform transition-transform duration-300 ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
         }`}>
-          <div className="p-6 pt-20">
-            <div className="space-y-4">
+          <div className="p-4 sm:p-6 pt-16 sm:pt-20">
+            <div className="space-y-3 sm:space-y-4">
               {navItems.map((item) => (
                 <Button
                   key={item.id}
                   variant={activeSection === item.id ? 'default' : 'ghost'}
                   size="lg"
                   onClick={() => scrollToSection(item.id)}
-                  className="w-full justify-start transition-all duration-300"
+                  className="w-full justify-start transition-all duration-300 text-left"
                 >
-                  <item.icon className="w-5 h-5 mr-3" />
-                  {item.label}
+                  <item.icon className="w-5 h-5 mr-3 flex-shrink-0" />
+                  <span className="truncate">{item.label}</span>
                 </Button>
               ))}
             </div>

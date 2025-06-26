@@ -316,29 +316,29 @@ const ExperienceSection = () => {
   };
 
   return (
-    <section 
+    <section
       ref={sectionRef}
       id="experience" 
-      className={`min-h-screen py-20 px-6 transition-all duration-1000 ${currentCompany?.theme.bgClass || ''}`}
+      className={`min-h-screen py-12 sm:py-16 md:py-20 px-4 sm:px-6 transition-all duration-1000 ${currentCompany?.theme.bgClass || ''}`}
     >
       <div 
         ref={containerRef}
         className={`max-w-7xl mx-auto ${isDragging ? 'cursor-grabbing select-none' : 'cursor-grab select-none'}`}
         style={{ userSelect: 'none' }}
       >
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">Professional Journey</h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+        <div className="text-center mb-8 sm:mb-12 md:mb-16">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 sm:mb-4">Professional Journey</h2>
+          <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto px-2">
             From intern to mid-level engineer, building scalable solutions across different domains
           </p>
-          <p className="text-sm text-muted-foreground/70 mt-2">
+          <p className="text-xs sm:text-sm text-muted-foreground/70 mt-2">
             💡 Swipe left or right to explore different companies
           </p>
         </div>
 
         {/* Company Navigation */}
-        <div className="flex justify-center mb-12">
-          <div className="flex space-x-4">
+        <div className="flex justify-center mb-8 sm:mb-12">
+          <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4">
             {companies.map((company, index) => (
               <Button
                 key={company.id}
@@ -351,7 +351,7 @@ const ExperienceSection = () => {
                 }`}
               >
                 <company.icon className="w-4 h-4" />
-                <span>{company.name}</span>
+                <span className="text-sm sm:text-base">{company.name}</span>
               </Button>
             ))}
           </div>
@@ -359,7 +359,7 @@ const ExperienceSection = () => {
 
         {currentCompany && currentPosition && (
           <div 
-            className={`grid lg:grid-cols-2 gap-12 items-center transition-all duration-300 ease-out select-none ${
+            className={`grid lg:grid-cols-2 gap-6 sm:gap-8 md:gap-12 items-center transition-all duration-300 ease-out select-none ${
               isDragging ? 'transform scale-[0.99] opacity-90' : 'transform scale-100 opacity-100'
             } ${isTransitioning ? 'pointer-events-none' : ''}`}
             style={{
@@ -380,21 +380,21 @@ const ExperienceSection = () => {
             }}
           >
             {/* Content Side */}
-            <div className="space-y-6">
-              <div className="flex items-center justify-between mb-6">
-                <div className="flex items-center space-x-4">
-                  <div className={`p-4 rounded-full bg-white shadow-lg animate-pulse-glow`}>
-                    <currentCompany.icon className={`w-8 h-8 ${currentCompany.theme.textPrimary}`} />
+            <div className="space-y-4 sm:space-y-6">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 sm:mb-6 space-y-4 sm:space-y-0">
+                <div className="flex items-center space-x-3 sm:space-x-4">
+                  <div className={`p-3 sm:p-4 rounded-full bg-white shadow-lg animate-pulse-glow`}>
+                    <currentCompany.icon className={`w-6 h-6 sm:w-8 sm:h-8 ${currentCompany.theme.textPrimary}`} />
                   </div>
                   <div>
-                    <h3 className="text-3xl font-bold">{currentCompany.name}</h3>
-                    <p className="text-xl font-semibold text-muted-foreground">{currentPosition.role}</p>
+                    <h3 className="text-2xl sm:text-3xl font-bold">{currentCompany.name}</h3>
+                    <p className="text-lg sm:text-xl font-semibold text-muted-foreground">{currentPosition.role}</p>
                   </div>
                 </div>
 
                 {/* Position Navigation */}
                 {currentCompany.positions.length > 1 && (
-                  <div className="flex items-center space-x-2">
+                  <div className="flex items-center justify-center sm:justify-end space-x-2">
                     <Button
                       onClick={prevPosition}
                       disabled={activePosition[activeCompany] === 0}
@@ -420,22 +420,22 @@ const ExperienceSection = () => {
                 )}
               </div>
 
-              <div className="flex items-center space-x-6 text-muted-foreground">
+              <div className="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-6 text-muted-foreground">
                 <div className="flex items-center space-x-2">
-                  <Calendar className="w-5 h-5" />
-                  <span>{currentPosition.period}</span>
+                  <Calendar className="w-4 h-4 sm:w-5 sm:h-5" />
+                  <span className="text-sm sm:text-base">{currentPosition.period}</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <MapPin className="w-5 h-5" />
-                  <span>{currentPosition.location}</span>
+                  <MapPin className="w-4 h-4 sm:w-5 sm:h-5" />
+                  <span className="text-sm sm:text-base">{currentPosition.location}</span>
                 </div>
               </div>
 
-              <p className="text-lg leading-relaxed">{currentPosition.description}</p>
+              <p className="text-base sm:text-lg leading-relaxed">{currentPosition.description}</p>
 
               <div>
-                <h4 className="text-lg font-semibold mb-3 flex items-center">
-                  <Code className="w-5 h-5 mr-2" />
+                <h4 className="text-base sm:text-lg font-semibold mb-3 flex items-center">
+                  <Code className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
                   Technologies
                 </h4>
                 <div className="flex flex-wrap gap-2">
@@ -443,7 +443,7 @@ const ExperienceSection = () => {
                     <Badge
                       key={tech}
                       variant="outline"
-                      className={`${currentCompany.theme.textPrimary} border-current hover:bg-current/10 hover:text-current hover:border-current transition-all duration-300 font-medium`}
+                      className={`${currentCompany.theme.textPrimary} border-current hover:bg-current/10 hover:text-current hover:border-current transition-all duration-300 font-medium text-xs sm:text-sm`}
                     >
                       {tech}
                     </Badge>
@@ -452,8 +452,8 @@ const ExperienceSection = () => {
               </div>
 
               <div>
-                <h4 className="text-lg font-semibold mb-3 flex items-center">
-                  <Briefcase className="w-5 h-5 mr-2" />
+                <h4 className="text-base sm:text-lg font-semibold mb-3 flex items-center">
+                  <Briefcase className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
                   Key Achievements
                 </h4>
                 <ul className="space-y-2">
@@ -467,7 +467,7 @@ const ExperienceSection = () => {
                       }}
                     >
                       <div className={`w-2 h-2 rounded-full ${currentCompany.theme.textPrimary} mt-2 flex-shrink-0`}></div>
-                      <span className="text-muted-foreground">{achievement}</span>
+                      <span className="text-sm sm:text-base text-muted-foreground">{achievement}</span>
                     </li>
                   ))}
                 </ul>
@@ -475,23 +475,23 @@ const ExperienceSection = () => {
             </div>
 
             {/* Visual Side */}
-            <div className="flex items-center justify-center">
-              <Card className={`w-80 h-80 ${currentCompany.theme.gradient} border-none shadow-2xl animate-float transition-all duration-500 ${
+            <div className="flex items-center justify-center order-first lg:order-last">
+              <Card className={`w-64 h-64 sm:w-72 sm:h-72 md:w-80 md:h-80 ${currentCompany.theme.gradient} border-none shadow-2xl animate-float transition-all duration-500 ${
                 isDragging ? 'scale-95 rotate-1' : 'scale-100 rotate-0'
               }`}>
-                <CardContent className="flex items-center justify-center h-full">
+                <CardContent className="flex items-center justify-center h-full p-4">
                   <div className="text-center">
-                    <div className="mb-6 transition-transform duration-300 hover:scale-110">
+                    <div className="mb-4 sm:mb-6 transition-transform duration-300 hover:scale-110">
                       <img 
                         src={currentCompany.logo} 
                         alt={`${currentCompany.name} logo`}
-                        className="w-24 h-24 object-contain mx-auto filter drop-shadow-lg"
+                        className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 object-contain mx-auto filter drop-shadow-lg"
                       />
                     </div>
-                    <h4 className="text-2xl font-bold text-white mb-2">{currentCompany.name}</h4>
-                    <p className="text-white/80">{currentPosition.role}</p>
+                    <h4 className="text-lg sm:text-xl md:text-2xl font-bold text-white mb-2">{currentCompany.name}</h4>
+                    <p className="text-sm sm:text-base text-white/80">{currentPosition.role}</p>
                     {currentCompany.positions.length > 1 && (
-                      <div className="mt-4 flex justify-center space-x-1">
+                      <div className="mt-3 sm:mt-4 flex justify-center space-x-1">
                         {currentCompany.positions.map((_, posIndex) => (
                           <div
                             key={posIndex}

@@ -52,15 +52,43 @@
 
   html {
     scroll-behavior: smooth;
+    /* Prevent horizontal scroll on mobile */
+    overflow-x: hidden;
   }
   
   body {
     font-family: 'Inter', system-ui, sans-serif;
     line-height: 1.6;
+    /* Prevent horizontal scroll on mobile */
+    overflow-x: hidden;
+    /* Better touch handling on mobile */
+    -webkit-tap-highlight-color: transparent;
+    /* Smooth scrolling on iOS */
+    -webkit-overflow-scrolling: touch;
   }
   
   * {
     box-sizing: border-box;
+  }
+
+  /* Mobile-specific improvements */
+  @media (max-width: 640px) {
+    /* Better text rendering on mobile */
+    body {
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    
+    /* Prevent zoom on input focus on iOS */
+    input, textarea, select {
+      font-size: 16px;
+    }
+    
+    /* Better touch targets */
+    button, a {
+      min-height: 44px;
+      min-width: 44px;
+    }
   }
 }
 
@@ -74,11 +102,22 @@
   }
   
   .section-padding {
-    @apply py-16 px-4 sm:px-6 lg:px-8;
+    @apply py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8;
   }
   
   .container-max {
     @apply max-w-7xl mx-auto;
+  }
+
+  /* Mobile-optimized animations */
+  @media (max-width: 640px) {
+    .animate-float {
+      animation-duration: 3s;
+    }
+    
+    .animate-bounce {
+      animation-duration: 1.5s;
+    }
   }
 }
 
@@ -89,5 +128,22 @@
   
   .bg-gradient-primary {
     @apply bg-gradient-to-br from-primary-50 to-secondary-50;
+  }
+
+  /* Safe area utilities for iPhone */
+  .safe-top {
+    padding-top: env(safe-area-inset-top);
+  }
+  
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  
+  .safe-left {
+    padding-left: env(safe-area-inset-left);
+  }
+  
+  .safe-right {
+    padding-right: env(safe-area-inset-right);
   }
 } 

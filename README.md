@@ -5,7 +5,7 @@ A modern, interactive portfolio website showcasing my journey as a Backend Softw
 ## 🚀 Features
 
 - **Modern Design**: Clean, minimalist interface with smooth animations
-- **Interactive Code Showcase**: Live code snippets in Python, Go, and Java with IDE-like syntax highlighting
+- **Interactive Code Showcase**: Live code snippets in Python and Go with IDE-like syntax highlighting
 - **Dynamic Experience Section**: Company-grouped experiences with navigation between positions
 - **Responsive Layout**: Optimized for all devices (desktop, tablet, mobile)
 - **Performance Optimized**: Fast loading times with optimized assets
@@ -49,9 +49,8 @@ gustavo-portfolio/
 │   │   └── App.css        # App-specific styles
 │   ├── utils/             # Code snippets and utilities
 │   │   ├── constants.js   # App constants
-│   │   ├── *.go          # Go code examples
-│   │   ├── *.java        # Java code examples
-│   │   └── *.py          # Python code examples
+│   │   ├── *.py          # Python code examples
+│   │   └── *.go          # Go code examples
 │   ├── App.jsx            # Main App component
 │   └── main.jsx           # Entry point
 ├── .dockerignore          # Docker ignore file
@@ -144,7 +143,7 @@ docker-compose up -d
 
 ### 🏠 Hero Section
 - Personal introduction with animated typing effect
-- Interactive code block with tabbed interface (Python, Go, Java)
+- Interactive code block with tabbed interface (Python, Go)
 - Social media links and contact information
 - Profile picture and professional title
 
@@ -167,7 +166,7 @@ docker-compose up -d
 
 ### 💻 Code Showcase Section
 - Interactive code snippets with syntax highlighting
-- Multiple programming languages (Python, Go, Java)
+- Multiple programming languages (Python, Go)
 - IDE-like interface with copy functionality
 - Algorithm explanation and complexity analysis
 
@@ -209,8 +208,7 @@ theme: {
 
 Edit the code snippet files in `src/utils/`:
 - `two_sum.py` - Python implementation
-- `two_sum.go` - Go implementation  
-- `two_sum.java` - Java implementation
+- `two_sum.go` - Go implementation
 
 ## 🔧 Development
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Code, Database, Cloud, Settings, Server, Globe } from 'lucide-react';
+import { Code, Database, Cloud, Settings, Server, Globe, Languages } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Progress } from './ui/progress';
 
@@ -42,6 +42,17 @@ const SkillsSection = () => {
         { name: 'Angular', level: 75, years: '3+', description: 'Full-featured frontend framework' },
         { name: 'JavaScript', level: 85, years: '4+', description: 'Core web programming language' },
         { name: 'TypeScript', level: 70, years: '1+', description: 'Typed JavaScript superset' }
+      ]
+    },
+    {
+      title: 'Languages',
+      icon: Languages,
+      color: 'text-indigo-600',
+      bgColor: 'bg-indigo-50',
+      skills: [
+        { name: 'Portuguese', level: 100, years: 'Native', description: 'Native language - Fluent speaking, reading, and writing' },
+        { name: 'English', level: 95, years: 'Professional', description: 'Professional proficiency - Business communication and technical documentation' },
+        { name: 'Spanish', level: 85, years: 'Advanced', description: 'Advanced conversational and professional communication skills' }
       ]
     },
     {
@@ -215,7 +226,7 @@ const SkillsSection = () => {
         </div>
 
         {/* Summary stats */}
-        <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8">
+        <div className="mt-16 grid grid-cols-2 md:grid-cols-5 gap-8">
           <div className="text-center">
             <div className="text-4xl font-bold text-primary mb-2">24+</div>
             <p className="text-muted-foreground">Technologies</p>
@@ -227,6 +238,10 @@ const SkillsSection = () => {
           <div className="text-center">
             <div className="text-4xl font-bold text-primary mb-2">3</div>
             <p className="text-muted-foreground">Companies</p>
+          </div>
+          <div className="text-center">
+            <div className="text-4xl font-bold text-primary mb-2">3</div>
+            <p className="text-muted-foreground">Languages</p>
           </div>
           <div className="text-center">
             <div className="text-4xl font-bold text-primary mb-2">∞</div>

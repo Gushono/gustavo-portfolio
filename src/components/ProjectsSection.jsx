@@ -76,7 +76,7 @@ const ProjectsSection = () => {
             'KYC processing for clients',
             'Advance profile definition',
             'Real-time risk analysis',
-            'Integration with BBB TON system',
+            'Preparing system for BBB and TON processing',
             'Bulk registration processing'
           ],
           techStack: {
@@ -86,7 +86,7 @@ const ProjectsSection = () => {
             tools: ['Docker', 'Kubernetes', 'Redis', 'RabbitMQ']
           },
           icon: Shield,
-          impact: 'Allowed defining advance profiles based on risk analysis and BBB data processing'
+          impact: 'Allowed defining advance profiles based on risk analysis'
         }
       ]
     },

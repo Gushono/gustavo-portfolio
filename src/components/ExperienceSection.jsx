@@ -28,7 +28,13 @@ const ExperienceSection = () => {
   const [activeCompany, setActiveCompany] = useState(0);
   const [activePosition, setActivePosition] = useState({});
   const [isVisible, setIsVisible] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [currentX, setCurrentX] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [slideDirection, setSlideDirection] = useState('none');
   const sectionRef = useRef(null);
+  const containerRef = useRef(null);
 
   const companies = [
     {
@@ -179,6 +185,24 @@ const ExperienceSection = () => {
     return () => observer.disconnect();
   }, []);
 
+  // Add mouse event listeners for swipe functionality
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    container.addEventListener('mousedown', handleMouseDown);
+    container.addEventListener('mousemove', handleMouseMove);
+    container.addEventListener('mouseup', handleMouseUp);
+    container.addEventListener('mouseleave', handleMouseLeave);
+
+    return () => {
+      container.removeEventListener('mousedown', handleMouseDown);
+      container.removeEventListener('mousemove', handleMouseMove);
+      container.removeEventListener('mouseup', handleMouseUp);
+      container.removeEventListener('mouseleave', handleMouseLeave);
+    };
+  }, [isDragging, startX, currentX, activeCompany]);
+
   const currentCompany = companies[activeCompany];
   const currentPosition = currentCompany?.positions[activePosition[activeCompany] || 0];
 
@@ -204,7 +228,91 @@ const ExperienceSection = () => {
   };
 
   const goToCompany = (companyIndex) => {
-    setActiveCompany(companyIndex);
+    if (companyIndex === activeCompany || isTransitioning) return;
+    
+    const direction = companyIndex > activeCompany ? 'left' : 'right';
+    setSlideDirection(direction);
+    setIsTransitioning(true);
+    
+    // Reduced delay for faster transition
+    setTimeout(() => {
+      setActiveCompany(companyIndex);
+      setIsTransitioning(false);
+      setSlideDirection('none');
+    }, 200);
+  };
+
+  const smoothTransitionToCompany = (newCompanyIndex, direction) => {
+    if (newCompanyIndex === activeCompany || isTransitioning) return;
+    
+    setSlideDirection(direction);
+    setIsTransitioning(true);
+    
+    setTimeout(() => {
+      setActiveCompany(newCompanyIndex);
+      setIsTransitioning(false);
+      setSlideDirection('none');
+    }, 200);
+  };
+
+  // Mouse swipe functionality
+  const handleMouseDown = (e) => {
+    e.preventDefault(); // Prevent text selection
+    setIsDragging(true);
+    setStartX(e.clientX);
+    setCurrentX(e.clientX);
+  };
+
+  const handleMouseMove = (e) => {
+    if (!isDragging || isTransitioning) return;
+    e.preventDefault(); // Prevent text selection during drag
+    setCurrentX(e.clientX);
+    
+    // Auto-change company when drag threshold is reached
+    const deltaX = e.clientX - startX;
+    const autoChangeThreshold = 100; // Distance to auto-change company
+    
+    if (Math.abs(deltaX) > autoChangeThreshold) {
+      if (deltaX > 0 && activeCompany > 0) {
+        // Swipe right - go to previous company
+        smoothTransitionToCompany(activeCompany - 1, 'right');
+        setIsDragging(false);
+        setStartX(e.clientX);
+        setCurrentX(e.clientX);
+      } else if (deltaX < 0 && activeCompany < companies.length - 1) {
+        // Swipe left - go to next company
+        smoothTransitionToCompany(activeCompany + 1, 'left');
+        setIsDragging(false);
+        setStartX(e.clientX);
+        setCurrentX(e.clientX);
+      }
+    }
+  };
+
+  const handleMouseUp = (e) => {
+    if (!isDragging || isTransitioning) return;
+    e.preventDefault(); // Prevent text selection
+    
+    const deltaX = currentX - startX;
+    const threshold = 30; // Reduced threshold since we have auto-change now
+    
+    if (Math.abs(deltaX) > threshold) {
+      if (deltaX > 0 && activeCompany > 0) {
+        // Swipe right - go to previous company
+        smoothTransitionToCompany(activeCompany - 1, 'right');
+      } else if (deltaX < 0 && activeCompany < companies.length - 1) {
+        // Swipe left - go to next company
+        smoothTransitionToCompany(activeCompany + 1, 'left');
+      }
+    }
+    
+    setIsDragging(false);
+  };
+
+  const handleMouseLeave = () => {
+    if (isDragging) {
+      setIsDragging(false);
+    }
   };
 
   return (
@@ -213,11 +321,18 @@ const ExperienceSection = () => {
       id="experience" 
       className={`min-h-screen py-20 px-6 transition-all duration-1000 ${currentCompany?.theme.bgClass || ''}`}
     >
-      <div className="max-w-7xl mx-auto">
+      <div 
+        ref={containerRef}
+        className={`max-w-7xl mx-auto ${isDragging ? 'cursor-grabbing select-none' : 'cursor-grab select-none'}`}
+        style={{ userSelect: 'none' }}
+      >
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold mb-4">Professional Journey</h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
             From intern to mid-level engineer, building scalable solutions across different domains
+          </p>
+          <p className="text-sm text-muted-foreground/70 mt-2">
+            💡 Swipe left or right to explore different companies
           </p>
         </div>
 
@@ -243,7 +358,27 @@ const ExperienceSection = () => {
         </div>
 
         {currentCompany && currentPosition && (
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div 
+            className={`grid lg:grid-cols-2 gap-12 items-center transition-all duration-300 ease-out select-none ${
+              isDragging ? 'transform scale-[0.99] opacity-90' : 'transform scale-100 opacity-100'
+            } ${isTransitioning ? 'pointer-events-none' : ''}`}
+            style={{
+              transform: isTransitioning 
+                ? slideDirection === 'left' 
+                  ? 'translateX(-100%) scale(0.95) opacity-0' 
+                  : slideDirection === 'right' 
+                    ? 'translateX(100%) scale(0.95) opacity-0'
+                    : 'translateX(0) scale(1) opacity-100'
+                : isDragging 
+                  ? `scale(0.99) translateX(${Math.max(-20, Math.min(20, (currentX - startX) * 0.03))}px) rotateY(${Math.max(-15, Math.min(15, (currentX - startX) * 0.3))}deg)` 
+                  : 'scale(1) translateX(0px) rotateY(0deg)',
+              userSelect: 'none',
+              filter: isDragging ? 'blur(0.3px)' : 'blur(0px)',
+              boxShadow: isDragging 
+                ? `0 ${Math.min(20, Math.abs(currentX - startX) * 0.1)}px ${Math.min(30, Math.abs(currentX - startX) * 0.2)}px rgba(0,0,0,0.1)` 
+                : 'none'
+            }}
+          >
             {/* Content Side */}
             <div className="space-y-6">
               <div className="flex items-center justify-between mb-6">
@@ -341,10 +476,12 @@ const ExperienceSection = () => {
 
             {/* Visual Side */}
             <div className="flex items-center justify-center">
-              <Card className={`w-80 h-80 ${currentCompany.theme.gradient} border-none shadow-2xl animate-float`}>
+              <Card className={`w-80 h-80 ${currentCompany.theme.gradient} border-none shadow-2xl animate-float transition-all duration-500 ${
+                isDragging ? 'scale-95 rotate-1' : 'scale-100 rotate-0'
+              }`}>
                 <CardContent className="flex items-center justify-center h-full">
                   <div className="text-center">
-                    <div className="mb-6">
+                    <div className="mb-6 transition-transform duration-300 hover:scale-110">
                       <img 
                         src={currentCompany.logo} 
                         alt={`${currentCompany.name} logo`}

@@ -64,6 +64,56 @@ const ProjectsSection = () => {
       bgColor: 'bg-green-50',
       gradient: 'from-green-500 to-green-700',
       impact: 'Permitia definir perfis de antecipação baseados em análise de risco e processamento de dados do BBB'
+    },
+    {
+      id: 'mercadolivre-security',
+      title: 'Mercado Livre',
+      subtitle: 'Security Education Backend',
+      description: 'Plataforma de capacitação de cursos para desenvolvedores do Mercado Livre, focada em desenvolvimento seguro.',
+      features: [
+        'Sistema de quiz e avaliações',
+        'Desafios de código práticos',
+        'Video aulas sobre segurança',
+        'Cobertura de vulnerabilidades (XSS, SSRF, SQL Injection)',
+        'Dashboard de progresso dos desenvolvedores',
+        'Métricas de capacitação e engajamento'
+      ],
+      techStack: {
+        backend: ['Golang'],
+        frontend: ['React'],
+        database: ['PostgreSQL', 'Redis'],
+        tools: ['Datadog', 'Kibana', 'New Relic', 'Docker']
+      },
+      icon: Shield,
+      color: 'text-red-600',
+      bgColor: 'bg-red-50',
+      gradient: 'from-red-500 to-red-700',
+      impact: 'Mais de 10 mil desenvolvedores capacitados, gerando economia significativa ao substituir ferramenta paga'
+    },
+    {
+      id: 'mercadolivre-genova',
+      title: 'Mercado Livre',
+      subtitle: 'Gerenciador de Arquivos (Genova)',
+      description: 'Ferramenta para comunicação segura com bandeiras e integrações via SFTP em ambiente PCI.',
+      features: [
+        'Comunicação segura via SFTP',
+        'Ambiente PCI para troca de arquivos',
+        'Notificações automáticas para clientes',
+        'Sistema de conciliação de dados',
+        'Integração com múltiplas bandeiras',
+        'Monitoramento e logs de transações'
+      ],
+      techStack: {
+        backend: ['Golang'],
+        frontend: ['React'],
+        database: ['PostgreSQL', 'Redis'],
+        tools: ['Datadog', 'Kibana', 'New Relic', 'SFTP', 'PCI DSS']
+      },
+      icon: Database,
+      color: 'text-yellow-600',
+      bgColor: 'bg-yellow-50',
+      gradient: 'from-yellow-500 to-yellow-700',
+      impact: 'Permitia comunicação segura com bandeiras e integrações, facilitando a conciliação para clientes'
     }
   ];
 
@@ -103,7 +153,7 @@ const ProjectsSection = () => {
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-8">
+        <div className="grid md:grid-cols-2 gap-8">
           {projects.map((project, index) => (
             <Card
               key={project.id}
@@ -111,7 +161,7 @@ const ProjectsSection = () => {
                 isVisible ? 'animate-fade-in-up' : 'opacity-0 translate-y-10'
               }`}
               style={{
-                animationDelay: `${index * 200}ms`
+                animationDelay: `${index * 150}ms`
               }}
             >
               {/* Project Header */}
@@ -236,11 +286,15 @@ const ProjectsSection = () => {
               </Badge>
               <Badge variant="outline" className="text-lg px-6 py-3 hover:bg-primary hover:text-white transition-all duration-300">
                 <Shield className="w-5 h-5 mr-2" />
-                Análise de Risco
+                Segurança & Compliance
               </Badge>
               <Badge variant="outline" className="text-lg px-6 py-3 hover:bg-primary hover:text-white transition-all duration-300">
                 <Calculator className="w-5 h-5 mr-2" />
                 Cálculos Financeiros
+              </Badge>
+              <Badge variant="outline" className="text-lg px-6 py-3 hover:bg-primary hover:text-white transition-all duration-300">
+                <Database className="w-5 h-5 mr-2" />
+                Integrações PCI
               </Badge>
             </div>
           </div>

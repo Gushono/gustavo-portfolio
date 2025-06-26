@@ -68,7 +68,7 @@ const ContactSection = () => {
           </div>
         </div>
 
-        <div className="max-w-2xl mx-auto space-y-8">
+        <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
           {/* Contact Details */}
           <Card className="shadow-xl">
             <CardHeader>
@@ -119,23 +119,6 @@ const ContactSection = () => {
                   </div>
                 </a>
               ))}
-            </CardContent>
-          </Card>
-
-          {/* Availability Status */}
-          <Card className="shadow-xl bg-gradient-to-r from-primary/5 to-accent/5 border-primary/20">
-            <CardContent className="p-6 text-center">
-              <div className="flex items-center justify-center space-x-2 mb-4">
-                <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-                <Badge variant="outline" className="text-green-600 border-green-600">
-                  Available for Work
-                </Badge>
-              </div>
-              <h3 className="text-lg font-semibold mb-2">Ready for New Challenges</h3>
-              <p className="text-muted-foreground text-sm">
-                Open to full-time positions, freelance projects, and consulting opportunities. 
-                Specializing in backend development with Python and Golang.
-              </p>
             </CardContent>
           </Card>
         </div>

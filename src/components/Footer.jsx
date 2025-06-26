@@ -28,9 +28,12 @@ const Footer = () => {
             <h3 className="font-semibold text-lg">Quick Links</h3>
             <div className="space-y-2">
               {[
-                { label: 'About Me', href: '#about' },
+                { label: 'About', href: '#about' },
+                { label: 'Education', href: '#education' },
                 { label: 'Experience', href: '#experience' },
+                { label: 'Projects', href: '#projects' },
                 { label: 'Skills', href: '#skills' },
+                { label: 'Code Showcase', href: '#code-showcase' },
                 { label: 'Contact', href: '#contact' }
               ].map((link) => (
                 <a

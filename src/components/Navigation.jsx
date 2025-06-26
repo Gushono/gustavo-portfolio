@@ -8,7 +8,6 @@ const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
 
   const navItems = [
-    { id: 'hero', label: 'Home', icon: Home },
     { id: 'about', label: 'About', icon: User },
     { id: 'education', label: 'Education', icon: GraduationCap },
     { id: 'experience', label: 'Experience', icon: Briefcase },

@@ -147,6 +147,24 @@ const ContactSection = () => {
             </div>
           </div>
         </div>
+
+        {/* Resume Download */}
+        <div className="text-center mt-16 pt-16 border-t border-border/20">
+          <div className="max-w-2xl mx-auto">
+            <h3 className="text-2xl font-bold mb-4">Download My Resume</h3>
+            <p className="text-muted-foreground mb-6">
+              Get a detailed overview of my experience, skills, and achievements in a printable format.
+            </p>
+            <Button size="lg" variant="outline" asChild className="group">
+              <a href="/gustavo-resume.pdf" download="gustavo-resume.pdf">
+                <svg className="w-4 h-4 mr-2 group-hover:animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                Download Resume (PDF)
+              </a>
+            </Button>
+          </div>
+        </div>
       </div>
     </section>
   );

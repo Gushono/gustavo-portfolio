@@ -32,7 +32,6 @@ const Footer = () => {
                 { label: 'Education', href: '#education' },
                 { label: 'Experience', href: '#experience' },
                 { label: 'Projects', href: '#projects' },
-                { label: 'Skills', href: '#skills' },
                 { label: 'Code Showcase', href: '#code-showcase' },
                 { label: 'Contact', href: '#contact' }
               ].map((link) => (

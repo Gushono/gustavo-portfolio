@@ -8,7 +8,6 @@ import AboutSection from './components/AboutSection';
 import EducationSection from './components/EducationSection';
 import ExperienceSection from './components/ExperienceSection';
 import ProjectsSection from './components/ProjectsSection';
-import SkillsSection from './components/SkillsSection';
 import CodeSnippetsSection from './components/CodeSnippetsSection';
 import ContactSection from './components/ContactSection';
 import Footer from './components/Footer';
@@ -65,7 +64,7 @@ function App() {
       console.log('%c📊 Portfolio Stats:', 'color: #3b82f6; font-size: 16px; font-weight: bold;');
       console.log('%c• Built with: React + Vite + Tailwind CSS', 'color: #6b7280; font-size: 14px;');
       console.log('%c• Languages: Python, Go, JavaScript', 'color: #6b7280; font-size: 14px;');
-      console.log('%c• Sections: 8 main sections', 'color: #6b7280; font-size: 14px;');
+      console.log('%c• Sections: 7 main sections', 'color: #6b7280; font-size: 14px;');
       console.log('%c• Deployed: GitHub Pages', 'color: #6b7280; font-size: 14px;');
     };
 
@@ -96,7 +95,6 @@ function App() {
         <EducationSection />
         <ExperienceSection />
         <ProjectsSection />
-        <SkillsSection />
         <CodeSnippetsSection />
         <ContactSection />
       </main>

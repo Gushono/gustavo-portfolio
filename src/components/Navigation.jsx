@@ -12,7 +12,6 @@ const Navigation = () => {
     { id: 'education', label: 'Education', icon: GraduationCap },
     { id: 'experience', label: 'Experience', icon: Briefcase },
     { id: 'projects', label: 'Projects', icon: FolderOpen },
-    { id: 'skills', label: 'Skills', icon: Code },
     { id: 'code-showcase', label: 'Code', icon: Terminal },
     { id: 'contact', label: 'Contact', icon: Mail }
   ];

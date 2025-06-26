@@ -18,6 +18,11 @@ import {
   Briefcase
 } from 'lucide-react';
 
+// Import company logos
+import mercadoLivreLogo from '../assets/mercado_livre_logo.png';
+import stoneLogo from '../assets/stone_logo.png';
+import enforceLogo from '../assets/enforce_logo.jpeg';
+
 const ProjectsSection = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [expandedProjects, setExpandedProjects] = useState({});
@@ -25,6 +30,7 @@ const ProjectsSection = () => {
   const projectGroups = [
     {
       company: 'Enforce',
+      logo: enforceLogo,
       color: 'blue',
       bgColor: 'bg-blue-50',
       borderColor: 'border-blue-200',
@@ -55,6 +61,7 @@ const ProjectsSection = () => {
     },
     {
       company: 'Stone/Pagar.me',
+      logo: stoneLogo,
       color: 'green',
       bgColor: 'bg-green-50',
       borderColor: 'border-green-200',
@@ -85,6 +92,7 @@ const ProjectsSection = () => {
     },
     {
       company: 'Mercado Livre',
+      logo: mercadoLivreLogo,
       color: 'yellow',
       bgColor: 'bg-yellow-50',
       borderColor: 'border-yellow-200',
@@ -224,8 +232,12 @@ const ProjectsSection = () => {
                 {/* Company Header */}
                 <div className="flex items-center justify-between mb-8">
                   <div className="flex items-center space-x-4">
-                    <div className={`p-3 rounded-full bg-gradient-to-r ${group.gradient} text-white`}>
-                      {React.createElement(group.projects[0].icon, { className: "w-6 h-6" })}
+                    <div className="p-2 rounded-lg bg-white shadow-lg flex items-center justify-center">
+                      <img 
+                        src={group.logo} 
+                        alt={`${group.company} logo`}
+                        className="w-10 h-10 object-contain"
+                      />
                     </div>
                     <div>
                       <h3 className="text-2xl font-bold">{group.company}</h3>

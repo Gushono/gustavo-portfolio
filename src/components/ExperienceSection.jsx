@@ -231,8 +231,8 @@ const ExperienceSection = () => {
                 variant={activeCompany === index ? "default" : "outline"}
                 className={`flex items-center space-x-2 transition-all duration-300 ${
                   activeCompany === index 
-                    ? `${company.theme.textPrimary} border-current bg-current/10` 
-                    : 'hover:scale-105'
+                    ? `${company.theme.textPrimary} bg-white border-2 border-current shadow-lg font-semibold scale-105` 
+                    : 'hover:scale-105 bg-white/90 hover:bg-white border-white'
                 }`}
               >
                 <company.icon className="w-4 h-4" />
@@ -382,7 +382,7 @@ const ExperienceSection = () => {
                 key={index}
                 className={`w-3 h-3 rounded-full transition-all duration-300 cursor-pointer ${
                   activeCompany === index 
-                    ? `${company.theme.textPrimary} scale-125` 
+                    ? `${company.theme.textPrimary} bg-current scale-125` 
                     : 'bg-muted-foreground/30 hover:bg-muted-foreground/50'
                 }`}
                 onClick={() => goToCompany(index)}
